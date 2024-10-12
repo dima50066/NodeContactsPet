@@ -1,0 +1,68 @@
+tags:
+  - Contacts
+summary: Get all contacts
+operationId: getAllContacts
+description: Retrieve a list of all contacts for the authenticated user.
+parameters:
+  - name: page
+    in: query
+    required: false
+    description: Page number.
+    schema:
+      type: integer
+  - name: perPage
+    in: query
+    required: false
+    description: Number of items per page.
+    schema:
+      type: integer
+  - name: sortOrder
+    in: query
+    required: false
+    description: Sorted in ascending or descending order
+    schema:
+      type: string
+      enum:
+        - asc
+        - desc
+  - name: sortBy
+    in: query
+    required: false
+    description: Sort contacts by a specific field.
+    schema:
+      type: string
+      enum:
+        - name
+        - phoneNumber
+        - email
+        - contactType
+        - isFavourite
+        - createdAt
+        - updatedAt
+  - name: contactType
+    in: query
+    required: false
+    description: Filter contacts by type (work, home, personal).
+    schema:
+      type: string
+      enum:
+        - work
+        - home
+        - personal
+  - name: isFavourite
+    in: query
+    required: false
+    description: Filter contacts by favorite status.
+    schema:
+      type: boolean
+responses:
+  '200':
+    description: Contacts fetched successfully.
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            $ref: ..\..\components\schemas\contacts.yaml
+  '404':
+    $ref: ..\..\components\responses\notFound.yaml

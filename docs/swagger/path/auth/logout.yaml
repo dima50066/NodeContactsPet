@@ -1,0 +1,11 @@
+summary: Log out the current user
+operationId: logoutUser
+responses:
+  '204':
+    description: User successfully logged out
+  '400':
+    description: Bad request - Invalid request data
+  '401':
+    description: Unauthorized - User is not logged in
+  '500':
+    description: Logout failed - Server error
