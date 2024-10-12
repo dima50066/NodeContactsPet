@@ -1,0 +1,14 @@
+summary: Register a new user
+operationId: registerUser
+requestBody:
+  description: User registration data
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '../../components/schemas/auth.yaml#/properties/Register'
+responses:
+  '201':
+    description: User registered successfully
+  '400':
+    description: Invalid input data

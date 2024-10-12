@@ -1,0 +1,12 @@
+description: Unauthorized. The request requires user authentication or the authentication has failed.
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 401
+        message:
+          type: string
+          example: Unauthorized. Please provide valid credentials.

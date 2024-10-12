@@ -1,0 +1,48 @@
+type: object
+properties:
+  userId:
+    type: string
+    description: Unique identifier for the user who owns the contact.
+  name:
+    type: string
+    description: Name of the contact.
+    minLength: 3
+    maxLength: 20
+  phoneNumber:
+    type: string
+    description: Phone number of the contact.
+    minLength: 3
+    maxLength: 20
+  email:
+    type: string
+    description: Email address of the contact.
+    format: email
+  isFavourite:
+    type: boolean
+    description: Indicates whether the contact is a favorite.
+    default: false
+  contactType:
+    type: string
+    description: Type of contact (work, home, personal).
+    enum:
+      - work
+      - home
+      - personal
+    default: personal
+  photo:
+    type: string
+    description: URL to the contact's photo.
+    default: 'https://res.cloudinary.com/divyszzpf/image/upload/v1727786307/e2ft3t0ptrwg6rco1rsm.png'
+  createdAt:
+    type: string
+    format: date-time
+    description: Timestamp when the contact was created.
+  updatedAt:
+    type: string
+    format: date-time
+    description: Timestamp when the contact was last updated.
+required:
+  - userId
+  - name
+  - phoneNumber
+  - contactType
