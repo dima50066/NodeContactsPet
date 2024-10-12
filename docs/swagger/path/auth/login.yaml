@@ -1,0 +1,13 @@
+summary: Log in an existing user
+operationId: loginUser
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '../../components/schemas/auth.yaml#/properties/Login'
+responses:
+  '200':
+    description: User successfully logged in
+  '401':
+    description: Invalid credentials
