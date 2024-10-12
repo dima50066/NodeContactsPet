@@ -1,0 +1,59 @@
+tags:
+  - Contacts
+summary: Create a new contact
+operationId: createContact
+description: Create a new contact for the authenticated user.
+requestBody:
+  required: true
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        properties:
+          photo:
+            type: string
+            format: binary
+            description: The contact photo to upload (file). If both a photo file and a URL are provided, the file will take precedence.
+            example: null
+          name:
+            type: string
+            description: Name of the contact.
+            example: dmytro
+          phoneNumber:
+            type: string
+            description: Phone number of the contact.
+            example: +380123456789
+          contactType:
+            type: string
+            enum:
+              - personal
+              - work
+              - home
+            description: Type of contact.
+            example: work
+          email:
+            type: string
+            format: email
+            description: Email of the contact.
+            example: dima50066@gmail.com
+          isFavourite:
+            type: boolean
+            description: Whether the contact is marked as favourite.
+            example: true
+        required:
+          - name
+          - phoneNumber
+        description: 'Object containing fields to update for the contact. Only include the fields that need to be updated.'
+responses:
+  '201':
+    description: Contact created successfully.
+  '400':
+    description: Invalid data in the request.
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: 'Invalid data provided.'

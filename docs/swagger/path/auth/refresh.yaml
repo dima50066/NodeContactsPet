@@ -1,0 +1,7 @@
+summary: Refresh user session
+operationId: refreshSession
+responses:
+  '200':
+    description: Session successfully refreshed
+  '401':
+    description: Session refresh failed
