@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Register: React.FC = () => {
+const RegisterForm: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -49,4 +49,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default RegisterForm;

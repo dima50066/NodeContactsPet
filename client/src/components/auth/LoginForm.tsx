@@ -1,8 +1,7 @@
-// src/components/Auth/Login.tsx
 import React, { useState } from 'react';
 import { loginUser } from '../../services/AuthService';
 
-const Login: React.FC = () => {
+const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -42,4 +41,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default LoginForm;
