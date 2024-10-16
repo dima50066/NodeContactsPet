@@ -13,37 +13,36 @@ const RegisterForm: React.FC = () => {
 
     try {
       const response = await axios.post('/auth/register', { name, email, password });
-      // Додайте логіку після успішної реєстрації (наприклад, перенаправлення)
     } catch (err) {
-      setError('Помилка реєстрації, спробуйте ще раз');
+      setError('Registration failed');
     }
   };
 
   return (
     <form onSubmit={handleRegister}>
-      <h2>Реєстрація</h2>
+      <h2>Register</h2>
       <input
         type="text"
-        placeholder="Ім'я"
+        placeholder="name"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
       />
       <input
         type="email"
-        placeholder="Електронна пошта"
+        placeholder="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
       />
       <input
         type="password"
-        placeholder="Пароль"
+        placeholder="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <button type="submit">Зареєструватись</button>
+      <button type="submit">Send</button>
       {error && <p>{error}</p>}
     </form>
   );

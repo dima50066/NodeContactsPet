@@ -12,7 +12,7 @@ const ResetPassword: React.FC = () => {
     setError('');
 
     try {
-      await axios.post('/auth/send-reset-email', { email });
+      await axios.post('/auth/reset-pwd', { email });
       setMessage('Лист для скидання пароля надіслано на вашу електронну пошту.');
     } catch (err) {
       setError('Помилка, спробуйте ще раз');
