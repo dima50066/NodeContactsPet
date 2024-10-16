@@ -11,6 +11,9 @@ const Navigation: React.FC = () => {
         <li>
           <Link to="/contacts">Contacts</Link>
         </li>
+        <li>
+          <Link to="/send-reset">Reset password</Link>
+        </li>
       </ul>
     </nav>
   );
