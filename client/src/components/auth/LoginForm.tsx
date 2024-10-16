@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
-import { loginUser } from '../../services/AuthService';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../redux/auth/operations';
+import { AppDispatch } from '../../redux/store';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
     try {
-      const { data } = await loginUser(email, password);
-      localStorage.setItem('accessToken', data.accessToken); // Збереження токена в localStorage
-      // Додайте перенаправлення або додаткову логіку тут
+      const resultAction = await dispatch(loginUser({ email, password }));
+      if (loginUser.fulfilled.match(resultAction)) {
+      }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.message || 'Login failed');
     }
   };
 
@@ -27,6 +30,8 @@ const LoginForm: React.FC = () => {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
         required
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        title="Please enter a valid email address"
       />
       <input
         type="password"

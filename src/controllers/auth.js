@@ -39,13 +39,19 @@ export const registerUserController = async (req, res, next) => {
 
 export const loginUserController = async (req, res, next) => {
   try {
-    const session = await loginUser(req.body);
+    const { session, user } = await loginUser(req.body);
+    console.log('session', session);
+
     setupSession(res, session);
+
+    console.log('session.user', session.user);
+
     res.status(200).json({
       status: 200,
       message: 'Successfully logged in a user!',
       data: {
         accessToken: session.accessToken,
+        user,
       },
     });
   } catch (error) {

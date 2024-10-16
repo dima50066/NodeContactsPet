@@ -10,5 +10,3 @@ const HomePage = () => {
 
 export default HomePage;
 
-// Додай також це в кінець файлу
-export {};
