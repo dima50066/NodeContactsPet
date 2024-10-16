@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { loginUser, logOut, refreshUser } from './operations';
+import { set } from 'mongoose';
 
 const initialState = {
   user: null,
@@ -15,7 +16,15 @@ const authSlice = createSlice({
     clearCredentials: (state) => {
       state.user = null;
       state.token = null;
+      localStorage.removeItem('token');
     },
+
+    setCredentials: (state, action) => {
+      state.user = action.payload.user;
+      state.token = action.payload.accessToken;
+      localStorage.setItem('user', JSON.stringify(action.payload.user));
+      localStorage.setItem('token', action.payload.accessToken);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -29,6 +38,7 @@ const authSlice = createSlice({
         state.error = null;
         state.user = action.payload.user;
         localStorage.setItem('token', action.payload.accessToken);
+        localStorage.setItem('user', JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -64,5 +74,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearCredentials } = authSlice.actions;
+export const { clearCredentials, setCredentials } = authSlice.actions;
 export default authSlice.reducer;
