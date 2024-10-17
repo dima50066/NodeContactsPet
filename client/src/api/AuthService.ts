@@ -2,8 +2,6 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3001/auth';
 
-
-// Реєстрація нового користувача
 export const register = async (userData: { email: string; password: string }) => {
     const response = await axios.post(`${API_URL}/register`, userData);
     return response.data;
