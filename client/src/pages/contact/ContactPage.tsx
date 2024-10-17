@@ -10,5 +10,5 @@ const ContactPage = () => {
 
 export default ContactPage;
 
-// Додай також це в кінець файлу
+
 export {};
