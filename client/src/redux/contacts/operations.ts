@@ -18,7 +18,7 @@ api.interceptors.request.use((config) => {
 // Запит для отримання контактів
 export const fetchContacts = createAsyncThunk<ContactType[]>('contacts/fetchContacts', async () => {
   const response = await api.get('/contacts');
-  return response.data;
+  return response.data.data.data;
 });
 
 // Запит для створення нового контакту

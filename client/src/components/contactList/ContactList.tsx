@@ -1,9 +1,11 @@
+// ContactList.tsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { deleteContact, fetchContacts } from '../../redux/contacts/operations';
 import { ContactType } from '../../types';
-import { selectContacts } from '../../redux/contacts/selectors'; // Припустимо, ви маєте відповідний селектор
+import { selectContacts } from '../../redux/contacts/selectors';
+import Contact from '../contact/Contact';
 
 interface ContactListProps {
   onSelectContact: (contact: ContactType) => void;
@@ -11,35 +13,35 @@ interface ContactListProps {
 
 const ContactList: React.FC<ContactListProps> = ({ onSelectContact }) => {
   const dispatch: AppDispatch = useDispatch();
-  const contacts = useSelector(selectContacts); // Отримуємо контакти з Redux
+  const contacts = useSelector(selectContacts); // Отримайте контакти з глобального стану
 
   useEffect(() => {
-    // Диспатчим fetchContacts для отримання контактів з бекенда
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  // Перевірка отриманих контактів
-  useEffect(() => {
-    console.log('Received contacts:', contacts);
-  }, [contacts]);
-
   const handleRemoveContact = (id: string) => {
     dispatch(deleteContact(id));
+    // Можливо, ви захочете оновити список контактів після видалення
+  };
+
+  const handleUpdateContact = (updatedContact: ContactType) => {
+    // Тут можна додати логіку, якщо потрібно
+    // Наприклад, ви можете викликати dispatch для оновлення контактів
+    dispatch(fetchContacts()); // Після оновлення контакту, повторно отримати список
   };
 
   return (
-    <ul>
-      {contacts.length > 0 ? (
-        contacts.map((contact: ContactType) => (
-          <li key={contact._id}>
-            <span onClick={() => onSelectContact(contact)}>{contact.name}</span>
-            <button onClick={() => handleRemoveContact(contact._id)}>Delete</button>
-          </li>
-        ))
-      ) : (
-        <li>No contacts available</li>
-      )}
-    </ul>
+    <div>
+      {contacts.map((contact) => (
+        <Contact
+          key={contact._id}
+          contact={contact}
+          onRemove={handleRemoveContact}
+          onSelect={onSelectContact}
+          onUpdate={handleUpdateContact}
+        />
+      ))}
+    </div>
   );
 };
 

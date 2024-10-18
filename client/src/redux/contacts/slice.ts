@@ -1,18 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchContacts, createContact, updateContact, deleteContact } from './operations';
-import { ContactType } from '../../types';
-
-interface ContactsState {
-  loading: boolean;
-  error: string | null;
-  data: { contacts: ContactType[] }; // Зміна тут
-}
-
-const initialState: ContactsState = {
-  data: { contacts: [] }, // Зміна тут
-  loading: false,
-  error: null,
-};
+import { initialState } from '../../types';
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -27,7 +15,7 @@ const contactsSlice = createSlice({
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.loading = false;
-        state.data.contacts = action.payload; // Зміна тут
+        state.items = action.payload;
       })
       .addCase(fetchContacts.rejected, (state, action) => {
         state.loading = false;
@@ -40,7 +28,7 @@ const contactsSlice = createSlice({
       })
       .addCase(createContact.fulfilled, (state, action) => {
         state.loading = false;
-        state.data.contacts.push(action.payload); // Зміна тут
+        state.items.push(action.payload);
       })
       .addCase(createContact.rejected, (state, action) => {
         state.loading = false;
@@ -53,11 +41,11 @@ const contactsSlice = createSlice({
       })
       .addCase(updateContact.fulfilled, (state, action) => {
         state.loading = false;
-        const index = state.data.contacts.findIndex( // Зміна тут
+        const index = state.items.findIndex(
           (contact) => contact._id === action.payload._id
         );
         if (index !== -1) {
-          state.data.contacts[index] = action.payload; // Зміна тут
+          state.items[index] = action.payload;
         }
       })
       .addCase(updateContact.rejected, (state, action) => {
@@ -71,7 +59,7 @@ const contactsSlice = createSlice({
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.loading = false;
-        state.data.contacts = state.data.contacts.filter( // Зміна тут
+        state.items = state.items.filter( // Зміна тут
           (contact) => contact._id !== action.payload
         );
       })
