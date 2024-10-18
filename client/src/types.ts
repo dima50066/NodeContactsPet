@@ -7,9 +7,15 @@ export interface ContactType {
   contactType: 'work' | 'home' | 'personal';
   photo?: string;
 }
-
 export interface ContactsState {
-  contacts: ContactType[];
+  items: ContactType[];
   loading: boolean;
   error: string | null;
 }
+
+export const initialState: ContactsState = {
+  items: [],
+  loading: false,
+  error: null,
+};
+

@@ -5,7 +5,7 @@ import { ContactType } from '../types';
 
 export const useContacts = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const contacts = useSelector((state: RootState) => state.contacts.data.contacts);
+  const contacts = useSelector((state: RootState) => state.contacts.items);
   const loading = useSelector((state: RootState) => state.contacts.loading);
   const error = useSelector((state: RootState) => state.contacts.error);
 
