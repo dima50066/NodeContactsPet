@@ -7,6 +7,7 @@ const initialState = {
   token: null,
   loading: false,
   error: null as string | null,
+  isLoggedIn: !!localStorage.getItem('token'),
 };
 
 const authSlice = createSlice({
@@ -16,12 +17,14 @@ const authSlice = createSlice({
     clearCredentials: (state) => {
       state.user = null;
       state.token = null;
+      state.isLoggedIn = false;
       localStorage.removeItem('token');
     },
 
     setCredentials: (state, action) => {
       state.user = action.payload.user;
       state.token = action.payload.accessToken;
+      state.isLoggedIn = true;
       localStorage.setItem('user', JSON.stringify(action.payload.user));
       localStorage.setItem('token', action.payload.accessToken);
     }
@@ -37,12 +40,14 @@ const authSlice = createSlice({
         state.token = action.payload.accessToken;
         state.error = null;
         state.user = action.payload.user;
+        state.isLoggedIn = true;
         localStorage.setItem('token', action.payload.accessToken);
         localStorage.setItem('user', JSON.stringify(action.payload.user));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+        state.isLoggedIn = false;
       })
       .addCase(logOut.pending, (state) => {
         state.loading = true;
@@ -51,6 +56,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = null;
         state.token = null;
+        state.isLoggedIn = false;
         localStorage.removeItem('token');
       })
       .addCase(logOut.rejected, (state, action) => {
@@ -70,6 +76,7 @@ const authSlice = createSlice({
         state.error = action.payload as string;
         state.user = null;
         state.token = null;
+        state.isLoggedIn = false;
       });
   },
 });

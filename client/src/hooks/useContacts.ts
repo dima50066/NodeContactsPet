@@ -16,11 +16,18 @@ export const useContacts = () => {
   const removeContact = (id: string) => {
     dispatch(deleteContact(id));
   };
-
-  const modifyContact = (id: string, updates: Partial<ContactType>) => {
-    dispatch(updateContact({ id, updates }));
-  };
-
+const modifyContact = (id: string, updates: Partial<ContactType>) => {
+  const formData = new FormData();
+  Object.keys(updates).forEach((key) => {
+  const value = updates[key as keyof ContactType];
+  if (value && typeof value === 'object' && 'size' in value && 'type' in value) {
+    formData.append(key, value as Blob);
+  } else {
+    formData.append(key, value as string);
+  }
+});
+  dispatch(updateContact({ id, updates: formData }));
+};
   return {
     contacts,
     loading,

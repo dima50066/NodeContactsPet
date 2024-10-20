@@ -40,10 +40,14 @@ export const deleteContact = createAsyncThunk<string, string>(
 );
 
 // Запит для оновлення контакту
-export const updateContact = createAsyncThunk<ContactType, { id: string; updates: Partial<ContactType> }>(
+export const updateContact = createAsyncThunk<ContactType, { id: string; updates: FormData }>(
   'contacts/updateContact',
   async ({ id, updates }) => {
-    const response = await api.patch(`/contacts/${id}`, updates);
-    return response.data;
+    const response = await api.patch(`/contacts/${id}`, updates, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data.data;
   }
 );
