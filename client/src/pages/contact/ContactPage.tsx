@@ -1,4 +1,3 @@
-// ContactPage.tsx
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from '../../redux/contacts/operations';
@@ -9,15 +8,29 @@ import ContactForm from '../../components/contactForm/ContactForm';
 import UpdateContactForm from '../../components/updateContactForm/UpdateContactForm';
 import SearchBox from '../../components/searchBox/SearchBox';
 import { AppDispatch } from '../../redux/store';
+import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { useNavigate } from 'react-router-dom';
 
 const ContactPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   const [selectedContact, setSelectedContact] = useState<ContactType | null>(null);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const navigate = useNavigate();
 
+  // Навігація на логін, якщо користувач не залогінений
   useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+    if (!isLoggedIn) {
+      navigate('/login');
+    }
+  }, [isLoggedIn, navigate]);
+
+  // Завантаження контактів після логіну
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchContacts());
+    }
+  }, [isLoggedIn, dispatch]);
 
   return (
     <div>

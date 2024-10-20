@@ -15,16 +15,17 @@ const Contact: React.FC<ContactProps> = ({ contact, onRemove, onSelect }) => {
   };
 
   const handleEdit = () => {
-    onSelect(contact); // Викликаємо onSelect для вибору контакту
+    onSelect(contact);
   };
 
   return (
     <div>
+      <img width={150} height={100} src={contact.photo} alt={contact.name} />
       <h3>{contact.name}</h3>
       <p>Email: {contact.email}</p>
       <p>Phone: {contact.phoneNumber}</p>
       <button onClick={handleRemove}>Remove</button>
-      <button onClick={handleEdit}>Edit</button> {/* Кнопка для редагування контакту */}
+      <button onClick={handleEdit}>Edit</button>
     </div>
   );
 };

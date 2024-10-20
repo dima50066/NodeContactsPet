@@ -71,7 +71,7 @@ export const updateContact = async (id, payload, options) => {
   );
 
   if (!contact) {
-    return null; // Повертаємо null, якщо контакт не знайдено
+    return null;
   }
 
   return {
