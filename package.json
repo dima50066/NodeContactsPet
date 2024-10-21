@@ -20,6 +20,7 @@
   "devDependencies": {
     "@eslint/js": "^9.10.0",
     "@redocly/cli": "^1.25.4",
+    "@types/axios": "^0.14.0",
     "concurrently": "^9.0.1",
     "eslint": "^9.10.0",
     "eslint-plugin-react": "^7.36.1",
@@ -43,6 +44,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.15",
     "pino-http": "^10.3.0",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "typescript": "^5.6.3"
   }
 }
