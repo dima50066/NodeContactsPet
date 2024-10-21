@@ -14,11 +14,11 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    const token = localStorage.getItem('token');
+    const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+    const storedToken = localStorage.getItem('token');
 
-    if (user && token) {
-      dispatch(setCredentials({ user, accessToken: token }));
+    if (storedUser && storedToken) {
+      dispatch(setCredentials({ user: storedUser, accessToken: storedToken }));
     }
   }, [dispatch]);
 

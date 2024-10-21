@@ -13,59 +13,59 @@ const contactsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchContacts.fulfilled, (state, action) => {
+      .addCase(fetchContacts.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.items = action.payload;
+        state.items = payload;
       })
-      .addCase(fetchContacts.rejected, (state, action) => {
+      .addCase(fetchContacts.rejected, (state, { error }) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to fetch contacts';
+        state.error = error.message || 'Failed to fetch contacts';
       })
       // Create contact
       .addCase(createContact.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(createContact.fulfilled, (state, action) => {
+      .addCase(createContact.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.items.push(action.payload);
+        state.items.push(payload);
       })
-      .addCase(createContact.rejected, (state, action) => {
+      .addCase(createContact.rejected, (state, { error }) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to create contact';
+        state.error = error.message || 'Failed to create contact';
       })
       // Update contact
       .addCase(updateContact.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(updateContact.fulfilled, (state, action) => {
+      .addCase(updateContact.fulfilled, (state, { payload }) => {
         state.loading = false;
         const index = state.items.findIndex(
-          (contact) => contact._id === action.payload._id
+          (contact) => contact._id === payload._id
         );
         if (index !== -1) {
-          state.items[index] = action.payload;
+          state.items[index] = payload;
         }
       })
-      .addCase(updateContact.rejected, (state, action) => {
+      .addCase(updateContact.rejected, (state, { error }) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to update contact';
+        state.error = error.message || 'Failed to update contact';
       })
       // Delete contact
       .addCase(deleteContact.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(deleteContact.fulfilled, (state, action) => {
+      .addCase(deleteContact.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.items = state.items.filter( // Зміна тут
-          (contact) => contact._id !== action.payload
+        state.items = state.items.filter(
+          (contact) => contact._id !== payload
         );
       })
-      .addCase(deleteContact.rejected, (state, action) => {
+      .addCase(deleteContact.rejected, (state, { error }) => {
         state.loading = false;
-        state.error = action.error.message || 'Failed to delete contact';
+        state.error = error.message || 'Failed to delete contact';
       });
   },
 });

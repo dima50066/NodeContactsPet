@@ -3,53 +3,52 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
 const ChangePasswordPage: React.FC = () => {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const token = params.get('token');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const queryParams = new URLSearchParams(window.location.search);
+  const resetToken = queryParams.get('token');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [formMessage, setFormMessage] = useState('');
+  const [formError, setFormError] = useState('');
 
-  const handleChangePassword = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setMessage('');
-    setError('');
+  const handlePasswordChange = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setFormMessage('');
+    setFormError('');
 
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
+    if (newPassword !== confirmNewPassword) {
+      setFormError('Passwords do not match');
       return;
     }
 
     try {
-      await axios.post('/auth/reset-pwd', { token, password });
-      setMessage('Your password has been changed.');
+      await axios.post('/auth/reset-pwd', { resetToken, newPassword });
+      setFormMessage('Your password has been changed.');
       localStorage.removeItem('token');
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
+    } catch (error) {
+      setFormError('Something went wrong. Please try again.');
     }
   };
 
   return (
-    <form onSubmit={handleChangePassword}>
-      <h2>Change password</h2>
+    <form onSubmit={handlePasswordChange}>
+      <h2>Change Password</h2>
       <input
         type="password"
-        placeholder="New password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        placeholder="New Password"
+        value={newPassword}
+        onChange={(event) => setNewPassword(event.target.value)}
         required
       />
       <input
         type="password"
-        placeholder="Confirm new password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
+        placeholder="Confirm New Password"
+        value={confirmNewPassword}
+        onChange={(event) => setConfirmNewPassword(event.target.value)}
         required
       />
-      <button type="submit">Change password</button>
-      {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
+      <button type="submit">Change Password</button>
+      {formMessage && <p>{formMessage}</p>}
+      {formError && <p>{formError}</p>}
     </form>
   );
 };

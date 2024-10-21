@@ -6,30 +6,28 @@ import { useNavigate } from 'react-router-dom';
 import { selectIsLoggedIn, selectError } from '../../redux/auth/selectors';
 
 const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [emailInput, setEmailInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  const loginError = useSelector(selectError);
+  const errorFromRedux = useSelector(selectError);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setLoginError(null);
 
     try {
-      const resultAction = await dispatch(loginUser({ email, password }));
+      const resultAction = await dispatch(loginUser({ email: emailInput, password: passwordInput }));
       if (loginUser.fulfilled.match(resultAction)) {
-        // Успішний логін, перехід на контактну сторінку
         navigate('/contacts');
       } else {
-        // Якщо логін не вдався
-        setError('Login failed: ' + (resultAction.payload as string || 'Unknown error'));
+        setLoginError('Login failed: ' + (resultAction.payload as string || 'Unknown error'));
       }
     } catch (err: any) {
-      setError(err.message || 'Login failed');
+      setLoginError(err.message || 'Login failed');
     }
   };
 
@@ -40,27 +38,26 @@ const LoginForm: React.FC = () => {
   }, [isLoggedIn, navigate]);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleLogin}>
       <input
         type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={emailInput}
+        onChange={(e) => setEmailInput(e.target.value)}
         placeholder="Email"
         required
-        title="Please enter a valid email address"
         autoComplete='email'
       />
       <input
         type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={passwordInput}
+        onChange={(e) => setPasswordInput(e.target.value)}
         placeholder="Password"
         required
         autoComplete='current-password'
       />
       <button type="submit">Login</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {loginError && <p style={{ color: 'red' }}>{loginError}</p>} {/* Відображаємо помилку з Redux */}
+      {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
+      {errorFromRedux && <p style={{ color: 'red' }}>{errorFromRedux}</p>}
     </form>
   );
 };

@@ -8,20 +8,18 @@ const api = axios.create({
 
 // Додаємо обробник запитів для включення токена в заголовки
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token'); // Отримуємо токен з localStorage або Redux
+  const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-// Запит для отримання контактів
 export const fetchContacts = createAsyncThunk<ContactType[]>('contacts/fetchContacts', async () => {
   const response = await api.get('/contacts');
   return response.data.data.data;
 });
 
-// Запит для створення нового контакту
 export const createContact = createAsyncThunk<ContactType, Omit<ContactType, '_id'>>(
   'contacts/createContact',
   async (contact) => {
@@ -30,7 +28,6 @@ export const createContact = createAsyncThunk<ContactType, Omit<ContactType, '_i
   }
 );
 
-// Запит для видалення контакту
 export const deleteContact = createAsyncThunk<string, string>(
   'contacts/deleteContact',
   async (id) => {
@@ -39,7 +36,6 @@ export const deleteContact = createAsyncThunk<string, string>(
   }
 );
 
-// Запит для оновлення контакту
 export const updateContact = createAsyncThunk<ContactType, { id: string; updates: FormData }>(
   'contacts/updateContact',
   async ({ id, updates }) => {
