@@ -3,53 +3,61 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterForm: React.FC = () => {
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [registrationName, setRegistrationName] = useState('');
+  const [registrationEmail, setRegistrationEmail] = useState('');
+  const [registrationPassword, setRegistrationPassword] = useState('');
+  const [registrationError, setRegistrationError] = useState('');
   const navigate = useNavigate();
 
-  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError('');
+  const handleRegistration = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setRegistrationError('');
 
     try {
-      // Реєстрація користувача
-      await axios.post('/auth/register', { name, email, password });
+      await axios.post('/auth/register', {
+        name: registrationName,
+        email: registrationEmail,
+        password: registrationPassword,
+      });
 
-      // Перенаправлення на сторінку входу після успішної реєстрації
       navigate('/login');
-    } catch (err) {
-      setError('Registration failed');
+    } catch {
+      setRegistrationError('Registration failed');
     }
   };
 
   return (
-    <form onSubmit={handleRegister}>
+    <form onSubmit={handleRegistration}>
       <h2>Register</h2>
-      <input
-        type="text"
-        placeholder="name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
-      <input
-        type="email"
-        placeholder="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
+      <label>
+        Name:
+        <input
+          type="text"
+          value={registrationName}
+          onChange={(event) => setRegistrationName(event.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Email:
+        <input
+          type="email"
+          value={registrationEmail}
+          onChange={(event) => setRegistrationEmail(event.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Password:
+        <input
+          type="password"
+          value={registrationPassword}
+          onChange={(event) => setRegistrationPassword(event.target.value)}
+          required
+        />
+      </label>
       <button type="submit">Send</button>
-      {error && <p>{error}</p>}
+      {registrationError && <p>{registrationError}</p>}
     </form>
   );
 };

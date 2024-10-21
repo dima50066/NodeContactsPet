@@ -1,4 +1,3 @@
-// ContactList.tsx
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
@@ -12,33 +11,25 @@ interface ContactListProps {
 }
 
 const ContactList: React.FC<ContactListProps> = ({ onSelectContact }) => {
-  const dispatch: AppDispatch = useDispatch();
-  const contacts = useSelector(selectContacts); // Отримайте контакти з глобального стану
+  const dispatch = useDispatch<AppDispatch>();
+  const contacts = useSelector(selectContacts);
 
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  const handleRemoveContact = (id: string) => {
-    dispatch(deleteContact(id));
-    // Можливо, ви захочете оновити список контактів після видалення
-  };
-
-  const handleUpdateContact = (updatedContact: ContactType) => {
-    // Тут можна додати логіку, якщо потрібно
-    // Наприклад, ви можете викликати dispatch для оновлення контактів
-    dispatch(fetchContacts()); // Після оновлення контакту, повторно отримати список
-  };
+  const handleRemove = (id: string) => dispatch(deleteContact(id));
+  const handleUpdate = (updatedContact: ContactType) => dispatch(fetchContacts());
 
   return (
     <div>
-      {contacts.map((contact) => (
+      {contacts.map(contact => (
         <Contact
           key={contact._id}
           contact={contact}
-          onRemove={handleRemoveContact}
+          onRemove={handleRemove}
           onSelect={onSelectContact}
-          onUpdate={handleUpdateContact}
+          onUpdate={handleUpdate}
         />
       ))}
     </div>

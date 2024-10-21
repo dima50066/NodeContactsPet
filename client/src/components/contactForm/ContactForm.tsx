@@ -13,45 +13,62 @@ interface ContactFormProps {
 const ContactForm: React.FC<ContactFormProps> = ({ contacts, onAdd }) => {
     const { addContact } = useContacts();
     const dispatch = useDispatch<AppDispatch>();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+
+    const [contactName, setContactName] = useState('');
+    const [contactEmail, setContactEmail] = useState('');
+    const [contactPhoneNumber, setContactPhoneNumber] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newContact: Omit<ContactType, '_id'> = { name, email, phoneNumber, isFavourite: false, contactType: 'personal' };
+
+        const newContact: Omit<ContactType, '_id'> = {
+            name: contactName,
+            email: contactEmail,
+            phoneNumber: contactPhoneNumber,
+            isFavourite: false,
+            contactType: 'personal',
+        };
 
         addContact(newContact);
-        setName('');
-        setEmail('');
-        setPhoneNumber('');
+        setContactName('');
+        setContactEmail('');
+        setContactPhoneNumber('');
 
         dispatch(fetchContacts());
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-            />
-            <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-            />
-            <input
-                type="tel"
-                placeholder="Phone"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                required
-            />
+            <label>
+                Name:
+                <input
+                    type="text"
+                    value={contactName}
+                    onChange={(e) => setContactName(e.target.value)}
+                    required
+                />
+            </label>
+
+            <label>
+                Email:
+                <input
+                    type="email"
+                    value={contactEmail}
+                    onChange={(e) => setContactEmail(e.target.value)}
+                    required
+                />
+            </label>
+
+            <label>
+                Phone:
+                <input
+                    type="tel"
+                    value={contactPhoneNumber}
+                    onChange={(e) => setContactPhoneNumber(e.target.value)}
+                    required
+                />
+            </label>
+
             <button type="submit">Add Contact</button>
         </form>
     );

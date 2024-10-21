@@ -1,4 +1,3 @@
-// Contact.tsx
 import React from 'react';
 import { ContactType } from '../../types';
 
@@ -9,14 +8,9 @@ interface ContactProps {
   onUpdate: (contact: ContactType) => void;
 }
 
-const Contact: React.FC<ContactProps> = ({ contact, onRemove, onSelect }) => {
-  const handleRemove = () => {
-    onRemove(contact._id);
-  };
-
-  const handleEdit = () => {
-    onSelect(contact);
-  };
+const Contact: React.FC<ContactProps> = ({ contact, onRemove, onSelect, onUpdate }) => {
+  const handleRemove = () => onRemove(contact._id);
+  const handleEdit = () => onSelect(contact);
 
   return (
     <div>
@@ -24,6 +18,8 @@ const Contact: React.FC<ContactProps> = ({ contact, onRemove, onSelect }) => {
       <h3>{contact.name}</h3>
       <p>Email: {contact.email}</p>
       <p>Phone: {contact.phoneNumber}</p>
+      <p>Favourite: {contact.isFavourite ? 'Yes' : 'No'}</p>
+      <p>Contact Type: {contact.contactType}</p>
       <button onClick={handleRemove}>Remove</button>
       <button onClick={handleEdit}>Edit</button>
     </div>

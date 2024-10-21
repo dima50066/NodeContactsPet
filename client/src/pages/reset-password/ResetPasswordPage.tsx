@@ -3,35 +3,35 @@ import axios from 'axios';
 
 const ResetPasswordPage: React.FC = () => {
   const [email, setEmail] = useState<string>('');
-  const [message, setMessage] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const handleResetPassword = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setMessage('');
-    setError('');
+  const handleResetPassword = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSuccessMessage('');
+    setErrorMessage('');
 
     try {
       await axios.post('/auth/send-reset-email', { email });
-      setMessage('Лист для скидання пароля надіслано на вашу електронну пошту.');
-    } catch (err) {
-      setError('Помилка, спробуйте ще раз');
+      setSuccessMessage('A password reset email has been sent to your email address.');
+    } catch {
+      setErrorMessage('An error occurred, please try again.');
     }
   };
 
   return (
     <form onSubmit={handleResetPassword}>
-      <h2>Reset password</h2>
+      <h2>Reset Password</h2>
       <input
         type="email"
-        placeholder="Електронна пошта"
+        placeholder="Email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(event) => setEmail(event.target.value)}
         required
       />
-      <button type="submit">Send reset email</button>
-      {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
+      <button type="submit">Send Reset Email</button>
+      {successMessage && <p>{successMessage}</p>}
+      {errorMessage && <p>{errorMessage}</p>}
     </form>
   );
 };

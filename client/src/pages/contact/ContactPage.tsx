@@ -6,26 +6,23 @@ import { ContactType } from '../../types';
 import ContactList from '../../components/contactList/ContactList';
 import ContactForm from '../../components/contactForm/ContactForm';
 import UpdateContactForm from '../../components/updateContactForm/UpdateContactForm';
-import SearchBox from '../../components/searchBox/SearchBox';
 import { AppDispatch } from '../../redux/store';
 import { selectIsLoggedIn } from '../../redux/auth/selectors';
 import { useNavigate } from 'react-router-dom';
 
 const ContactPage = () => {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const contacts = useSelector(selectContacts);
   const [selectedContact, setSelectedContact] = useState<ContactType | null>(null);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const navigate = useNavigate();
 
-  // Навігація на логін, якщо користувач не залогінений
   useEffect(() => {
     if (!isLoggedIn) {
       navigate('/login');
     }
   }, [isLoggedIn, navigate]);
 
-  // Завантаження контактів після логіну
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(fetchContacts());
@@ -35,8 +32,7 @@ const ContactPage = () => {
   return (
     <div>
       <h1>Contact Page</h1>
-      <SearchBox onSearch={(query) => console.log('Searching for:', query)} />
-      <ContactForm contacts={contacts} onAdd={(newContact) => console.log(newContact)} />
+      <ContactForm contacts={contacts} onAdd={(newContact) => {}} />
       <ContactList onSelectContact={setSelectedContact} />
       {selectedContact && (
         <UpdateContactForm

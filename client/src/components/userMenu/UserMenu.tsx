@@ -8,11 +8,8 @@ import { User } from '../../types';
 
 const UserMenu: React.FC = () => {
     const dispatch = useDispatch();
-    const user = useSelector((state: RootState) => selectUser(state)) as User | null;
+    const currentUser = useSelector(selectUser) as User | null;
     const navigate = useNavigate();
-
-    console.log('user', user);
-
 
     const handleLogout = async () => {
         await dispatch(logOut() as unknown as any);
@@ -23,10 +20,10 @@ const UserMenu: React.FC = () => {
 
     return (
         <div>
-            {user ? (
+            {currentUser ? (
                 <>
-                    <p>Hello, {user.name}</p>
-                    <button onClick={handleLogout}>Logout</button>
+                    <p>Hello, {currentUser.name}</p>
+                    <button onClick={handleLogout}>Log out</button>
                 </>
             ) : (
                 <p>Please log in.</p>
