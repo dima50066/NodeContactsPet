@@ -4,6 +4,7 @@ import { fetchContacts } from '../../redux/contacts/operations';
 import { useContacts } from '../../hooks/useContacts';
 import { ContactType } from '../../types';
 import { AppDispatch } from '../../redux/store';
+import { FilterParams } from '../../types';
 
 interface ContactFormProps {
     contacts: ContactType[];
@@ -34,7 +35,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ contacts, onAdd }) => {
         setContactEmail('');
         setContactPhoneNumber('');
 
-        dispatch(fetchContacts());
+        dispatch(fetchContacts({} as FilterParams));
     };
 
     return (

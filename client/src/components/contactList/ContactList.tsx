@@ -1,18 +1,17 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
 import { deleteContact } from '../../redux/contacts/operations';
-import { selectContacts } from '../../redux/contacts/selectors';
 import Contact from '../contact/Contact';
 import { ContactType } from '../../types';
 
 interface ContactListProps {
   onSelectContact: (contact: ContactType) => void;
+  contacts: ContactType[];
 }
 
-const ContactList: React.FC<ContactListProps> = ({ onSelectContact }) => {
+const ContactList: React.FC<ContactListProps> = ({ onSelectContact, contacts }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const contacts = useSelector(selectContacts);
 
   const handleRemove = (id: string) => dispatch(deleteContact(id));
 
