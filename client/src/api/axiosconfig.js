@@ -1,6 +1,6 @@
 import axios from 'axios';
-import store from '../redux/store';
-import { refreshUser } from '../redux/auth/operations'; // Імпортуємо вашу операцію для рефрешу токена
+import { store } from '../redux/store';
+import { refreshUser } from '../redux/auth/operations';
 
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3001',
