@@ -9,9 +9,10 @@ import AppBar from './components/appBar/AppBar';
 import HomePage from './pages/home/Home';
 import ChangePasswordPage from './pages/change-password/ChangePasswordPage';
 import ContactPage from './pages/contact/ContactPage';
+import { AppDispatch } from './redux/store';
 
 const App: React.FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
