@@ -25,3 +25,12 @@ export interface User {
     email: string;
     subscription: string;
 }
+
+
+export interface FilterParams {
+  filter: string;
+  sortOrder: 'asc' | 'desc';
+  contactType: string;
+  isFavourite: boolean | undefined;
+  sortBy: string;
+}

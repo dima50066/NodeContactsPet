@@ -1,12 +1,25 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ContactType } from '../../types';
 import axiosInstance from '../../api/axiosconfig';
+import {FilterParams} from '../../types';
+
 
 // Функції для роботи з контактами
-export const fetchContacts = createAsyncThunk<ContactType[]>('contacts/fetchContacts', async () => {
-  const response = await axiosInstance.get('/contacts');
-  return response.data.data.data; // Повертаємо дані
-});
+export const fetchContacts = createAsyncThunk<ContactType[], FilterParams>(
+  'contacts/fetchContacts',
+  async ({ filter, sortOrder, contactType, isFavourite, sortBy }) => {
+    const response = await axiosInstance.get('/contacts', {
+      params: {
+        filter,
+        sortOrder,
+        contactType,
+        isFavourite,
+        sortBy,
+      },
+    });
+    return response.data.data.data;
+  }
+);
 
 export const fetchContactById = createAsyncThunk<ContactType, string>(
   'contacts/fetchContactById',
