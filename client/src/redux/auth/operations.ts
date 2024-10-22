@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axiosInstance from '../../api/axiosconfig';
+
 
 const API_URL = 'http://localhost:3001/auth';
 
@@ -9,23 +10,23 @@ interface UserData {
 }
 
 export const registerUser = createAsyncThunk('auth/register', async (userData: UserData) => {
-    const response = await axios.post(`${API_URL}/register`, userData);
+    const response = await axiosInstance.post(`${API_URL}/register`, userData);
     return response.data.data;
 });
 
 export const loginUser = createAsyncThunk('auth/login', async (userData: UserData) => {
-    const response = await axios.post(`${API_URL}/login`, userData);
-    console.log('Login response:', response.data);
+    const response = await axiosInstance.post(`${API_URL}/login`, userData);
     return response.data.data;
 });
 
 export const logOut = createAsyncThunk('auth/logout', async () => {
-    await axios.post(`${API_URL}/logout`);
+    await axiosInstance.post(`${API_URL}/logout`);
 });
 
 export const refreshUser = createAsyncThunk('auth/refresh', async () => {
-    const response = await axios.post(`${API_URL}/refresh`, {}, {
+    const response = await axiosInstance.post(`${API_URL}/refresh`, {}, {
         withCredentials: true,
     });
-    return response.data;
+    return response.data.data;
 });
+
