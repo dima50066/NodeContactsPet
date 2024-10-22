@@ -26,6 +26,9 @@ const ContactPage = () => {
   // Стан для галочки
   const [isFavoriteChecked, setIsFavoriteChecked] = useState(false);
 
+  // Стан для пошуку по імені
+  const [searchTerm, setSearchTerm] = useState(''); // Додаємо новий стан для пошуку
+
   // Виклик запиту на отримання контактів при зміні filterParams або стану галочки
   useEffect(() => {
     const params: FilterParams = {
@@ -41,7 +44,7 @@ const ContactPage = () => {
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterParams((prev) => ({ ...prev, filter: e.target.value })); // Оновлюємо параметр filter
+    setSearchTerm(e.target.value); // Оновлюємо пошуковий термін
   };
 
   const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -61,15 +64,20 @@ const ContactPage = () => {
     setIsFavoriteChecked(e.target.checked); // Оновлюємо стан галочки
   };
 
+  // Фільтрація контактів на основі введеного імені
+  const filteredContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(searchTerm.toLowerCase()) // Фільтрація по імені
+  );
+
   return (
     <div>
       <h1>Contact Page</h1>
 
       <input
         type="text"
-        placeholder="Filter by name"
-        value={filterParams.filter}
-        onChange={handleFilterChange}
+        placeholder="Search by name"
+        value={searchTerm}
+        onChange={handleFilterChange} // Оновлюємо пошуковий термін
       />
       <select value={filterParams.sortOrder} onChange={handleSortOrderChange}>
         <option value="asc">Sort Ascending</option>
@@ -101,7 +109,8 @@ const ContactPage = () => {
       </label>
 
       <ContactForm onAdd={handleAddContact} contacts={contacts} />
-      <ContactList contacts={contacts} onSelectContact={setSelectedContact} />
+      {/* Рендеримо лише відфільтровані контакти */}
+      <ContactList contacts={filteredContacts} onSelectContact={setSelectedContact} />
       {selectedContact && (
         <UpdateContactForm
           contact={selectedContact}
