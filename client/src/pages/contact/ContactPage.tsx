@@ -14,59 +14,52 @@ const ContactPage = () => {
   const contacts = useSelector(selectContacts);
   const [selectedContact, setSelectedContact] = useState<ContactType | null>(null);
 
-  // Стан для параметрів фільтрації
   const [filterParams, setFilterParams] = useState<FilterParams>({
     filter: '',
     sortOrder: 'asc',
     contactType: 'all',
-    isFavourite: undefined, // За замовчуванням undefined
-    sortBy: 'name', // За замовчуванням сортуємо по імені
+    isFavourite: undefined,
+    sortBy: 'name',
   });
 
-  // Стан для галочки
+  const [searchTerm, setSearchTerm] = useState('');
   const [isFavoriteChecked, setIsFavoriteChecked] = useState(false);
 
-  // Стан для пошуку по імені
-  const [searchTerm, setSearchTerm] = useState(''); // Додаємо новий стан для пошуку
-
-  // Виклик запиту на отримання контактів при зміні filterParams або стану галочки
   useEffect(() => {
     const params: FilterParams = {
       ...filterParams,
-      isFavourite: isFavoriteChecked ? true : undefined, // Якщо галочка знята, isFavourite не передається
+      isFavourite: isFavoriteChecked ? true : undefined,
     };
 
     dispatch(fetchContacts(params));
   }, [dispatch, filterParams, isFavoriteChecked]);
 
   const handleAddContact = (newContact: ContactType) => {
-    // Логіка для додавання контакту
+    // Handle adding a new contact
   };
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value); // Оновлюємо пошуковий термін
+    setSearchTerm(e.target.value);
   };
 
   const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterParams((prev) => ({ ...prev, sortOrder: e.target.value as 'asc' | 'desc' })); // Оновлюємо параметр sortOrder
+    setFilterParams((prev) => ({ ...prev, sortOrder: e.target.value as 'asc' | 'desc' }));
   };
 
   const handleSortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterParams((prev) => ({ ...prev, sortBy: e.target.value })); // Оновлюємо параметр sortBy
+    setFilterParams((prev) => ({ ...prev, sortBy: e.target.value }));
   };
 
   const handleContactTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterParams((prev) => ({ ...prev, contactType: e.target.value })); // Оновлюємо параметр contactType
+    setFilterParams((prev) => ({ ...prev, contactType: e.target.value }));
   };
 
-  // Обробник зміни для галочки isFavourite
   const handleIsFavoriteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsFavoriteChecked(e.target.checked); // Оновлюємо стан галочки
+    setIsFavoriteChecked(e.target.checked);
   };
 
-  // Фільтрація контактів на основі введеного імені
   const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase()) // Фільтрація по імені
+    contact.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -77,8 +70,9 @@ const ContactPage = () => {
         type="text"
         placeholder="Search by name"
         value={searchTerm}
-        onChange={handleFilterChange} // Оновлюємо пошуковий термін
+        onChange={handleFilterChange}
       />
+
       <select value={filterParams.sortOrder} onChange={handleSortOrderChange}>
         <option value="asc">Sort Ascending</option>
         <option value="desc">Sort Descending</option>
@@ -102,20 +96,19 @@ const ContactPage = () => {
       <label>
         <input
           type="checkbox"
-          checked={isFavoriteChecked} // Використовуємо стан галочки
+          checked={isFavoriteChecked}
           onChange={handleIsFavoriteChange}
         />
         Show Favorites Only
       </label>
 
       <ContactForm onAdd={handleAddContact} contacts={contacts} />
-      {/* Рендеримо лише відфільтровані контакти */}
       <ContactList contacts={filteredContacts} onSelectContact={setSelectedContact} />
       {selectedContact && (
         <UpdateContactForm
           contact={selectedContact}
           onClose={() => setSelectedContact(null)}
-          onUpdateSuccess={() => dispatch(fetchContacts(filterParams))} // Передано filterParams
+          onUpdateSuccess={() => dispatch(fetchContacts(filterParams))}
         />
       )}
     </div>

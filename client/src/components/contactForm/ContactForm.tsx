@@ -15,25 +15,25 @@ const ContactForm: React.FC<ContactFormProps> = ({ contacts, onAdd }) => {
     const { addContact } = useContacts();
     const dispatch = useDispatch<AppDispatch>();
 
-    const [contactName, setContactName] = useState('');
-    const [contactEmail, setContactEmail] = useState('');
-    const [contactPhoneNumber, setContactPhoneNumber] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const newContact: Omit<ContactType, '_id'> = {
-            name: contactName,
-            email: contactEmail,
-            phoneNumber: contactPhoneNumber,
+            name,
+            email,
+            phoneNumber,
             isFavourite: false,
             contactType: 'personal',
         };
 
         addContact(newContact);
-        setContactName('');
-        setContactEmail('');
-        setContactPhoneNumber('');
+        setName('');
+        setEmail('');
+        setPhoneNumber('');
 
         dispatch(fetchContacts({} as FilterParams));
     };
@@ -44,8 +44,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ contacts, onAdd }) => {
                 Name:
                 <input
                     type="text"
-                    value={contactName}
-                    onChange={(e) => setContactName(e.target.value)}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     required
                 />
             </label>
@@ -54,8 +54,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ contacts, onAdd }) => {
                 Email:
                 <input
                     type="email"
-                    value={contactEmail}
-                    onChange={(e) => setContactEmail(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                 />
             </label>
@@ -64,8 +64,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ contacts, onAdd }) => {
                 Phone:
                 <input
                     type="tel"
-                    value={contactPhoneNumber}
-                    onChange={(e) => setContactPhoneNumber(e.target.value)}
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
                     required
                 />
             </label>
