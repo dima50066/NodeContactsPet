@@ -16,7 +16,7 @@ const ContactList: React.FC<ContactListProps> = ({ onSelectContact, contacts }) 
   const handleRemove = (id: string) => dispatch(deleteContact(id));
 
   return (
-    <div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {contacts.map(contact => (
         <Contact
           key={contact._id}

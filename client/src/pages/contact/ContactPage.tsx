@@ -63,41 +63,64 @@ const ContactPage = () => {
   );
 
   return (
-    <div>
-      <h1>Contact Page</h1>
+    <div className="p-4 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-bold text-blue-600 mb-4">Contacts</h1>
 
       <input
         type="text"
         placeholder="Search by name"
         value={searchTerm}
         onChange={handleFilterChange}
+        className="p-2 border border-gray-300 rounded mb-4 w-full max-w-xs"
       />
 
-      <select value={filterParams.sortOrder} onChange={handleSortOrderChange}>
-        <option value="asc">Sort Ascending</option>
-        <option value="desc">Sort Descending</option>
-      </select>
+      <div className="mb-4">
+        <label className="mr-2">Sort Order:</label>
+        <select
+          value={filterParams.sortOrder}
+          onChange={handleSortOrderChange}
+          className="p-2 border border-gray-300 rounded"
+        >
+          <option value="asc">Sort Ascending</option>
+          <option value="desc">Sort Descending</option>
+        </select>
+      </div>
 
-      <select value={filterParams.sortBy} onChange={handleSortByChange}>
-        <option value="name">Sort by Name</option>
-        <option value="phoneNumber">Sort by Phone Number</option>
-        <option value="email">Sort by Email</option>
-        <option value="isFavourite">Sort by Favorite</option>
-        <option value="contactType">Sort by Contact Type</option>
-      </select>
+      <div className="mb-4">
+        <label className="mr-2">Sort By:</label>
+        <select
+          value={filterParams.sortBy}
+          onChange={handleSortByChange}
+          className="p-2 border border-gray-300 rounded"
+        >
+          <option value="name">Sort by Name</option>
+          <option value="phoneNumber">Sort by Phone Number</option>
+          <option value="email">Sort by Email</option>
+          <option value="isFavourite">Sort by Favorite</option>
+          <option value="contactType">Sort by Contact Type</option>
+        </select>
+      </div>
 
-      <select value={filterParams.contactType} onChange={handleContactTypeChange}>
-        <option value="all">All</option>
-        <option value="work">Work</option>
-        <option value="personal">Personal</option>
-        <option value="home">Home</option>
-      </select>
+      <div className="mb-4">
+        <label className="mr-2">Contact Type:</label>
+        <select
+          value={filterParams.contactType}
+          onChange={handleContactTypeChange}
+          className="p-2 border border-gray-300 rounded"
+        >
+          <option value="all">All</option>
+          <option value="work">Work</option>
+          <option value="personal">Personal</option>
+          <option value="home">Home</option>
+        </select>
+      </div>
 
-      <label>
+      <label className="inline-flex items-center mb-4">
         <input
           type="checkbox"
           checked={isFavoriteChecked}
           onChange={handleIsFavoriteChange}
+          className="mr-2"
         />
         Show Favorites Only
       </label>
