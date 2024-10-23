@@ -29,33 +29,33 @@ const Contact: React.FC<ContactProps> = ({ contact, onRemove, onSelect, onUpdate
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 mb-4 max-w-xs mx-auto">
+    <div className="bg-white shadow-md rounded-lg p-4 mb-2 mx-auto w-full max-h-80"> {/* Зменшено поле, максимальна висота */}
       <img
-        className="w-32 h-32 object-cover rounded-full mb-4 mx-auto"
+        className="w-24 h-24 object-cover rounded-full mb-2 mx-auto" // Розмір зображення
         src={contact.photo}
         alt={contact.name}
       />
-      <h3 className="text-xl font-semibold mb-2 text-center">{contact.name}</h3>
-      <p className="text-gray-700 text-center">Email: {contact.email}</p>
-      <p className="text-gray-700 text-center">Phone: {contact.phoneNumber}</p>
+      <h3 className="text-lg font-semibold mb-1 text-center">{contact.name}</h3>
+      <p className="text-gray-700 text-center text-sm">Email: {contact.email}</p>
+      <p className="text-gray-700 text-center text-sm">Phone: {contact.phoneNumber}</p>
       <p className="text-gray-700 text-center">
         Favourite: <span className={`inline ${contact.isFavourite ? 'text-yellow-500' : 'text-gray-300'}`}>⭐</span>
       </p>
-      <p className="text-gray-700 text-center flex items-center justify-center">
+      <p className="text-gray-700 text-center flex items-center justify-center text-sm">
         Contact Type: {renderContactTypeIcon(contact.contactType)}
       </p>
-      <div className="mt-4 flex justify-center">
+      <div className="mt-2 flex justify-center">
         <button
           onClick={handleRemove}
-          className="bg-red-500 text-white px-4 py-2 rounded-md mr-2 hover:bg-red-600 transition flex items-center"
+          className="bg-red-500 text-white px-3 py-1 rounded-md mr-1 hover:bg-red-600 transition flex items-center text-sm"
         >
-          <FaTrash className="mr-2" /> Remove
+          <FaTrash className="mr-1" /> Remove
         </button>
         <button
           onClick={handleEdit}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition flex items-center"
+          className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition flex items-center text-sm"
         >
-          <FaEdit className="mr-2" /> Edit
+          <FaEdit className="mr-1" /> Edit
         </button>
       </div>
     </div>

@@ -24,7 +24,7 @@ const ContactList: React.FC<ContactListProps> = ({ onSelectContact, contacts }) 
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2"> {/* Встановлено gap до 2 */}
       {contacts.map(contact => (
         <Contact
           key={contact._id}

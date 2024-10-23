@@ -10,7 +10,7 @@ const AppBar: React.FC = () => {
   const isAuthenticated = Boolean(token);
 
   return (
-    <header className="flex items-center justify-between p-4 bg-gray-800 text-white">
+    <header className="flex items-center justify-between p-4 bg-blue-900 text-white">
       <Navigation />
       {isAuthenticated ? <UserMenu /> : <AuthNav />}
     </header>
