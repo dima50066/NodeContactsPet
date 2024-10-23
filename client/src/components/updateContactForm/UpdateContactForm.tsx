@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { updateContact } from '../../redux/contacts/operations';
 import { AppDispatch } from '../../redux/store';
 import { ContactType } from '../../types';
+import { toast } from 'react-toastify'; // Імпортируем Toastify
 
 interface UpdateContactFormProps {
   contact: ContactType;
@@ -37,14 +38,21 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
       formData.append('photo', photoFile);
     }
 
-    await dispatch(updateContact({ id: contact._id, updates: formData }));
-    onUpdateSuccess();
-    onClose();
+    try {
+      await dispatch(updateContact({ id: contact._id, updates: formData }));
+      toast.success('Contact updated successfully!'); // Успішне повідомлення
+      onUpdateSuccess();
+      onClose();
+    } catch (error) {
+      toast.error('Failed to update contact. Please try again.'); // Повідомлення про помилку
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} encType="multipart/form-data">
-      <label>
+    <form onSubmit={handleSubmit} encType="multipart/form-data" className="p-4 bg-white rounded-lg shadow-md">
+      <h2 className="text-lg font-semibold mb-4">Update Contact</h2>
+
+      <label className="block mb-2">
         Name:
         <input
           type="text"
@@ -52,10 +60,11 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
           onChange={(event) => setName(event.target.value)}
           placeholder="Contact Name"
           required
+          className="block w-full p-2 border border-gray-300 rounded"
         />
       </label>
 
-      <label>
+      <label className="block mb-2">
         Email:
         <input
           type="email"
@@ -63,10 +72,11 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
           onChange={(event) => setEmail(event.target.value)}
           placeholder="Contact Email"
           required
+          className="block w-full p-2 border border-gray-300 rounded"
         />
       </label>
 
-      <label>
+      <label className="block mb-2">
         Phone:
         <input
           type="tel"
@@ -74,25 +84,28 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
           onChange={(event) => setPhoneNumber(event.target.value)}
           placeholder="Contact Phone"
           required
+          className="block w-full p-2 border border-gray-300 rounded"
         />
       </label>
 
-      <label>
+      <label className="block mb-2">
         Photo:
         <input
           type="file"
           onChange={(event) => setPhotoFile(event.target.files ? event.target.files[0] : null)}
           accept="image/*"
+          className="block w-full p-2 border border-gray-300 rounded"
         />
       </label>
 
-      <label>
+      <label className="block mb-2">
         Type:
         <select
           value={contactType}
           onChange={(event) =>
             setContactType(event.target.value as "personal" | "work" | "home")
           }
+          className="block w-full p-2 border border-gray-300 rounded"
         >
           <option value="personal">Personal</option>
           <option value="work">Work</option>
@@ -100,19 +113,24 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
         </select>
       </label>
 
-      <label>
+      <label className="flex items-center mb-4">
         <input
           type="checkbox"
           checked={isFavourite}
           onChange={(event) => setIsFavourite(event.target.checked)}
+          className="mr-2"
         />
         Favourite
       </label>
 
-      <button type="submit">Update Contact</button>
-      <button type="button" onClick={onClose}>
-        Cancel
-      </button>
+      <div className="flex space-x-2">
+        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500">
+          Update Contact
+        </button>
+        <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-200">
+          Cancel
+        </button>
+      </div>
     </form>
   );
 };

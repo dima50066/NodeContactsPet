@@ -12,6 +12,8 @@ import ContactPage from './pages/contact/ContactPage';
 import { AppDispatch } from './redux/store';
 import PrivateRoute from './components/routes/PrivateRoute';
 import RestrictedRoute from './components/routes/RestrictedRoute';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,6 +30,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <AppBar />
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route

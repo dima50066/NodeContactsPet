@@ -4,11 +4,11 @@ import { loginUser } from '../../redux/auth/operations';
 import { AppDispatch } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
 import { selectIsLoggedIn, selectError } from '../../redux/auth/selectors';
+import { toast } from 'react-toastify';
 
 const LoginForm: React.FC = () => {
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
-  const [loginError, setLoginError] = useState<string | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -17,17 +17,17 @@ const LoginForm: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoginError(null);
 
     try {
       const resultAction = await dispatch(loginUser({ email: emailInput, password: passwordInput }));
       if (loginUser.fulfilled.match(resultAction)) {
+        toast.success('Login successful!');
         navigate('/contacts');
       } else {
-        setLoginError('Login failed: ' + (resultAction.payload as string || 'Unknown error'));
+        toast.error('Login failed: ' + (resultAction.payload as string || 'Unknown error'));
       }
     } catch (err: any) {
-      setLoginError(err.message || 'Login failed');
+      toast.error(err.message || 'Login failed');
     }
   };
 
@@ -37,8 +37,15 @@ const LoginForm: React.FC = () => {
     }
   }, [isLoggedIn, navigate]);
 
+
+  useEffect(() => {
+    if (errorFromRedux) {
+      toast.error(errorFromRedux);
+    }
+  }, [errorFromRedux]);
+
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} className="space-y-4">
       <input
         type="email"
         value={emailInput}
@@ -46,6 +53,7 @@ const LoginForm: React.FC = () => {
         placeholder="Email"
         required
         autoComplete='email'
+        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
       />
       <input
         type="password"
@@ -54,10 +62,11 @@ const LoginForm: React.FC = () => {
         placeholder="Password"
         required
         autoComplete='current-password'
+        className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
       />
-      <button type="submit">Login</button>
-      {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
-      {errorFromRedux && <p style={{ color: 'red' }}>{errorFromRedux}</p>}
+      <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-500">
+        Login
+      </button>
     </form>
   );
 };

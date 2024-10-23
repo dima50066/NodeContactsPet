@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 const Navigation: React.FC = () => {
   return (
     <nav>
-      <ul>
+      <ul className="flex space-x-4">
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/" className="text-white hover:underline">Home</Link>
         </li>
         <li>
-          <Link to="/contacts">Contacts</Link>
+          <Link to="/contacts" className="text-white hover:underline">Contacts</Link>
         </li>
         <li>
-          <Link to="/send-reset">Reset password</Link>
+          <Link to="/send-reset" className="text-white hover:underline">Reset password</Link>
         </li>
       </ul>
     </nav>

@@ -5,6 +5,7 @@ import { useContacts } from '../../hooks/useContacts';
 import { ContactType } from '../../types';
 import { AppDispatch } from '../../redux/store';
 import { FilterParams } from '../../types';
+import { toast } from 'react-toastify'; // Імпорт Toastify
 
 interface ContactFormProps {
     contacts: ContactType[];
@@ -30,7 +31,13 @@ const ContactForm: React.FC<ContactFormProps> = ({ contacts, onAdd }) => {
             contactType: 'personal',
         };
 
-        addContact(newContact);
+        try {
+            await addContact(newContact); // Переконайтеся, що addContact повертає promise
+            toast.success('Contact added successfully!'); // Успішне повідомлення
+        } catch (error) {
+            toast.error('Failed to add contact. Please try again.'); // Повідомлення про помилку
+        }
+
         setName('');
         setEmail('');
         setPhoneNumber('');
@@ -39,38 +46,53 @@ const ContactForm: React.FC<ContactFormProps> = ({ contacts, onAdd }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Name:
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
-            </label>
+        <form onSubmit={handleSubmit} className="p-4 bg-white shadow-lg rounded-lg max-w-xs mx-auto">
+            <h2 className="text-lg font-semibold mb-3 text-center">Add Contact</h2>
+            <div className="mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Name:
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                        className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-300"
+                    />
+                </label>
+            </div>
 
-            <label>
-                Email:
-                <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-            </label>
+            <div className="mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Email:
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-300"
+                    />
+                </label>
+            </div>
 
-            <label>
-                Phone:
-                <input
-                    type="tel"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    required
-                />
-            </label>
+            <div className="mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone:
+                    <input
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        required
+                        className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-blue-300"
+                    />
+                </label>
+            </div>
 
-            <button type="submit">Add Contact</button>
+            <button
+                type="submit"
+                className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 transition"
+            >
+                Add Contact
+            </button>
         </form>
     );
 };

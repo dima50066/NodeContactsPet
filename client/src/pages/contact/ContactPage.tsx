@@ -8,6 +8,7 @@ import ContactForm from '../../components/contactForm/ContactForm';
 import UpdateContactForm from '../../components/updateContactForm/UpdateContactForm';
 import { AppDispatch } from '../../redux/store';
 import { FilterParams } from '../../types';
+import { toast } from 'react-toastify'; // Імпорт для повідомлень
 
 const ContactPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -44,10 +45,12 @@ const ContactPage = () => {
 
   const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterParams((prev) => ({ ...prev, sortOrder: e.target.value as 'asc' | 'desc' }));
+    toast.info(`Contacts sorted in ${e.target.value === 'asc' ? 'ascending' : 'descending'} order.`); // Повідомлення про сортування
   };
 
   const handleSortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterParams((prev) => ({ ...prev, sortBy: e.target.value }));
+    toast.info(`Contacts sorted by ${e.target.value}.`); // Повідомлення про сортування
   };
 
   const handleContactTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -56,6 +59,7 @@ const ContactPage = () => {
 
   const handleIsFavoriteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsFavoriteChecked(e.target.checked);
+    toast.info(e.target.checked ? 'Showing favorite contacts only.' : 'Showing all contacts.'); // Повідомлення про показ тільки улюблених
   };
 
   const filteredContacts = contacts.filter(contact =>
