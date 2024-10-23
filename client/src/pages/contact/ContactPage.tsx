@@ -63,7 +63,7 @@ const ContactPage = () => {
   };
 
   const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase())
+    contact.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
