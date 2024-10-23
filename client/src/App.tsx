@@ -10,6 +10,8 @@ import HomePage from './pages/home/Home';
 import ChangePasswordPage from './pages/change-password/ChangePasswordPage';
 import ContactPage from './pages/contact/ContactPage';
 import { AppDispatch } from './redux/store';
+import PrivateRoute from './components/routes/PrivateRoute';
+import RestrictedRoute from './components/routes/RestrictedRoute';
 
 const App: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -28,11 +30,26 @@ const App: React.FC = () => {
       <AppBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute component={<LoginPage />} redirectTo="/contacts" />
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute component={<RegisterPage />} redirectTo="/contacts" />
+          }
+        />
         <Route path="/send-reset" element={<ResetPassword />} />
         <Route path="/reset-password" element={<ChangePasswordPage />} />
-        <Route path="/contacts" element={<ContactPage />} />
+        <Route
+          path="/contacts"
+          element={
+            <PrivateRoute component={<ContactPage />} redirectTo="/login" />
+          }
+        />
       </Routes>
     </Router>
   );
