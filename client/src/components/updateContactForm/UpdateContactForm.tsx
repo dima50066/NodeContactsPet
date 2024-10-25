@@ -49,7 +49,7 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} encType="multipart/form-data" className="p-4 bg-white rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} encType="multipart/form-data" className="p-4 bg-white rounded-lg">
       <h2 className="text-lg font-semibold mb-4">Update Contact</h2>
 
       <label className="block mb-2">
