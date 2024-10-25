@@ -2,6 +2,7 @@ import React from 'react';
 import { ContactType } from '../../types';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { MdHome, MdWork, MdPerson } from 'react-icons/md'; // Material Icons
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai'; // Іконки для зірочок
 
 interface ContactProps {
   contact: ContactType;
@@ -29,17 +30,24 @@ const Contact: React.FC<ContactProps> = ({ contact, onRemove, onSelect, onUpdate
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 mb-2 mx-auto w-full max-h-80"> {/* Зменшено поле, максимальна висота */}
+    <div className="bg-white shadow-md rounded-lg p-4 mb-2 mx-auto w-full max-h-80">
       <img
-        className="w-24 h-24 object-cover rounded-full mb-2 mx-auto" // Розмір зображення
+        className="w-24 h-24 object-cover rounded-full mb-2 mx-auto"
         src={contact.photo}
         alt={contact.name}
       />
       <h3 className="text-lg font-semibold mb-1 text-center">{contact.name}</h3>
       <p className="text-gray-700 text-center text-sm">Email: {contact.email}</p>
       <p className="text-gray-700 text-center text-sm">Phone: {contact.phoneNumber}</p>
-      <p className="text-gray-700 text-center">
-        Favourite: <span className={`inline ${contact.isFavourite ? 'text-yellow-500' : 'text-gray-300'}`}>⭐</span>
+      <p className="text-gray-700 text-center flex items-center justify-center text-sm">
+        Favourite:
+        <span className="inline ml-1">
+          {contact.isFavourite ? (
+            <AiFillStar className="text-yellow-500" />
+          ) : (
+            <AiOutlineStar className="text-gray-300" />
+          )}
+        </span>
       </p>
       <p className="text-gray-700 text-center flex items-center justify-center text-sm">
         Contact Type: {renderContactTypeIcon(contact.contactType)}
