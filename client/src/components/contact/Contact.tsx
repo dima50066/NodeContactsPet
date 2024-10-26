@@ -1,8 +1,8 @@
 import React from 'react';
 import { ContactType } from '../../types';
 import { FaTrash, FaEdit } from 'react-icons/fa';
-import { MdHome, MdWork, MdPerson } from 'react-icons/md'; // Material Icons
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai'; // Іконки для зірочок
+import { MdHome, MdWork, MdPerson } from 'react-icons/md';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 
 interface ContactProps {
   contact: ContactType;
@@ -12,11 +12,10 @@ interface ContactProps {
 }
 
 const Contact: React.FC<ContactProps> = ({ contact, onRemove, onSelect, onUpdate }) => {
-  const handleRemove = () => onRemove(contact._id);
-  const handleEdit = () => onSelect(contact);
+  const handleRemoveClick = () => onRemove(contact._id);
+  const handleEditClick = () => onSelect(contact);
 
-  // Функція для рендерингу іконок типів контактів
-  const renderContactTypeIcon = (type: string) => {
+  const getContactTypeIcon = (type: string) => {
     switch (type) {
       case 'home':
         return <MdHome className="text-blue-500 mr-1" title="Home" />;
@@ -30,15 +29,15 @@ const Contact: React.FC<ContactProps> = ({ contact, onRemove, onSelect, onUpdate
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4 mb-2 mx-auto w-full max-h-80">
+    <div className="bg-white shadow-md rounded-lg p-4 mb-2 mx-auto w-full max-w-sm">
       <img
         className="w-24 h-24 object-cover rounded-full mb-2 mx-auto"
         src={contact.photo}
         alt={contact.name}
       />
       <h3 className="text-lg font-semibold mb-1 text-center">{contact.name}</h3>
-      <p className="text-gray-700 text-center text-sm">Email: {contact.email}</p>
-      <p className="text-gray-700 text-center text-sm">Phone: {contact.phoneNumber}</p>
+      <p className="text-gray-700 text-center text-sm">{`Email: ${contact.email}`}</p>
+      <p className="text-gray-700 text-center text-sm">{`Phone: ${contact.phoneNumber}`}</p>
       <p className="text-gray-700 text-center flex items-center justify-center text-sm">
         Favourite:
         <span className="inline ml-1">
@@ -50,18 +49,18 @@ const Contact: React.FC<ContactProps> = ({ contact, onRemove, onSelect, onUpdate
         </span>
       </p>
       <p className="text-gray-700 text-center flex items-center justify-center text-sm">
-        Contact Type: {renderContactTypeIcon(contact.contactType)}
+        Contact Type: {getContactTypeIcon(contact.contactType)}
       </p>
-      <div className="mt-2 flex justify-center">
+      <div className="mt-2 flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-2">
         <button
-          onClick={handleRemove}
-          className="bg-red-500 text-white px-3 py-1 rounded-md mr-1 hover:bg-red-600 transition flex items-center text-sm"
+          onClick={handleRemoveClick}
+          className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition flex items-center text-sm w-full sm:w-auto"
         >
           <FaTrash className="mr-1" /> Remove
         </button>
         <button
-          onClick={handleEdit}
-          className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition flex items-center text-sm"
+          onClick={handleEditClick}
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition flex items-center text-sm w-full sm:w-auto"
         >
           <FaEdit className="mr-1" /> Edit
         </button>

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { updateContact } from '../../redux/contacts/operations';
 import { AppDispatch } from '../../redux/store';
 import { ContactType } from '../../types';
-import { toast } from 'react-toastify'; // Імпортируем Toastify
+import { toast } from 'react-toastify';
 
 interface UpdateContactFormProps {
   contact: ContactType;
@@ -17,34 +17,34 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
   onUpdateSuccess,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const [name, setName] = useState(contact.name);
-  const [email, setEmail] = useState(contact.email);
-  const [phoneNumber, setPhoneNumber] = useState(contact.phoneNumber);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [contactName, setContactName] = useState(contact.name);
+  const [contactEmail, setContactEmail] = useState(contact.email ?? '');
+  const [contactPhoneNumber, setContactPhoneNumber] = useState(contact.phoneNumber);
+  const [contactPhoto, setContactPhoto] = useState<File | null>(null);
   const [contactType, setContactType] = useState(contact.contactType);
-  const [isFavourite, setIsFavourite] = useState(contact.isFavourite);
+  const [isContactFavourite, setIsContactFavourite] = useState(contact.isFavourite);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     const formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email ?? '');
-    formData.append('phoneNumber', phoneNumber);
-    formData.append('isFavourite', isFavourite.toString());
+    formData.append('name', contactName);
+    formData.append('email', contactEmail);
+    formData.append('phoneNumber', contactPhoneNumber);
+    formData.append('isFavourite', isContactFavourite.toString());
     formData.append('contactType', contactType);
 
-    if (photoFile) {
-      formData.append('photo', photoFile);
+    if (contactPhoto) {
+      formData.append('photo', contactPhoto);
     }
 
     try {
       await dispatch(updateContact({ id: contact._id, updates: formData }));
-      toast.success('Contact updated successfully!'); // Успішне повідомлення
+      toast.success('Contact updated successfully!');
       onUpdateSuccess();
       onClose();
     } catch (error) {
-      toast.error('Failed to update contact. Please try again.'); // Повідомлення про помилку
+      toast.error('Failed to update contact. Please try again.');
     }
   };
 
@@ -56,8 +56,8 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
         Name:
         <input
           type="text"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
+          value={contactName}
+          onChange={(event) => setContactName(event.target.value)}
           placeholder="Contact Name"
           required
           className="block w-full p-2 border border-gray-300 rounded"
@@ -68,8 +68,8 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
         Email:
         <input
           type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          value={contactEmail}
+          onChange={(event) => setContactEmail(event.target.value)}
           placeholder="Contact Email"
           required
           className="block w-full p-2 border border-gray-300 rounded"
@@ -80,8 +80,8 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
         Phone:
         <input
           type="tel"
-          value={phoneNumber}
-          onChange={(event) => setPhoneNumber(event.target.value)}
+          value={contactPhoneNumber}
+          onChange={(event) => setContactPhoneNumber(event.target.value)}
           placeholder="Contact Phone"
           required
           className="block w-full p-2 border border-gray-300 rounded"
@@ -92,7 +92,7 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
         Photo:
         <input
           type="file"
-          onChange={(event) => setPhotoFile(event.target.files ? event.target.files[0] : null)}
+          onChange={(event) => setContactPhoto(event.target.files ? event.target.files[0] : null)}
           accept="image/*"
           className="block w-full p-2 border border-gray-300 rounded"
         />
@@ -116,18 +116,25 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
       <label className="flex items-center mb-4">
         <input
           type="checkbox"
-          checked={isFavourite}
-          onChange={(event) => setIsFavourite(event.target.checked)}
+          checked={isContactFavourite}
+          onChange={(event) => setIsContactFavourite(event.target.checked)}
           className="mr-2"
         />
         Favourite
       </label>
 
       <div className="flex space-x-2">
-        <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500">
+        <button
+          type="submit"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500"
+        >
           Update Contact
         </button>
-        <button type="button" onClick={onClose} className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-200">
+        <button
+          type="button"
+          onClick={onClose}
+          className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-200"
+        >
           Cancel
         </button>
       </div>

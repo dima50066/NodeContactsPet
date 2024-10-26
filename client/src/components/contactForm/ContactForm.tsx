@@ -5,7 +5,7 @@ import { useContacts } from '../../hooks/useContacts';
 import { ContactType } from '../../types';
 import { AppDispatch } from '../../redux/store';
 import { FilterParams } from '../../types';
-import { toast } from 'react-toastify'; // Імпорт Toastify
+import { toast } from 'react-toastify';
 
 interface ContactFormProps {
     contacts: ContactType[];
@@ -32,10 +32,10 @@ const ContactForm: React.FC<ContactFormProps> = ({ contacts, onAdd }) => {
         };
 
         try {
-            await addContact(newContact); // Переконайтеся, що addContact повертає promise
-            toast.success('Contact added successfully!'); // Успішне повідомлення
+            await addContact(newContact);
+            toast.success('Contact added successfully!');
         } catch (error) {
-            toast.error('Failed to add contact. Please try again.'); // Повідомлення про помилку
+            toast.error('Failed to add contact. Please try again.');
         }
 
         setName('');

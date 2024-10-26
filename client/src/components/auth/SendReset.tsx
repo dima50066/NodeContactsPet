@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify'; // Імпортируем Toastify
+import { toast } from 'react-toastify';
 
 const ResetPassword: React.FC = () => {
   const [email, setEmail] = useState<string>('');
 
-  const handleResetPassword = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleResetPasswordSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      await axios.post('/auth/send-reset-email', { email });
-      toast.success('A reset password email has been sent.'); // Успішне повідомлення
-    } catch {
-      toast.error('An error occurred. Please try again.'); // Повідомлення про помилку
+      await axios.post('/auth/send-reset-email', { email: email.trim() });
+      toast.success('A reset password email has been sent.');
+    } catch (error) {
+      toast.error('An error occurred. Please try again.');
     }
   };
 
@@ -20,7 +20,7 @@ const ResetPassword: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Reset Password</h2>
-        <form onSubmit={handleResetPassword} className="space-y-4">
+        <form onSubmit={handleResetPasswordSubmit} className="space-y-4">
           <input
             type="email"
             placeholder="Enter your email"

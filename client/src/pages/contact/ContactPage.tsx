@@ -23,7 +23,7 @@ const style = {
   p: 4,
 };
 
-const buttonStyle = "mb-4 mx-2 p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200"; // Загальний стиль для кнопок
+const buttonStyle = "mb-4 mx-2 p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200";
 
 const ContactPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -40,8 +40,8 @@ const ContactPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isFavoriteChecked, setIsFavoriteChecked] = useState(false);
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const [open, setOpen] = useState(false); // Стан для відкриття модального вікна
-  const [isUpdateOpen, setIsUpdateOpen] = useState(false); // Стан для відкриття модального вікна оновлення
+  const [isAddingNewContact, setIsAddingNewContact] = useState(false);
+  const [isUpdatingContact, setIsUpdatingContact] = useState(false);
 
   useEffect(() => {
     const params: FilterParams = {
@@ -53,12 +53,12 @@ const ContactPage = () => {
   }, [dispatch, filterParams, isFavoriteChecked]);
 
   const handleAddContact = (newContact: ContactType) => {
-    setOpen(false); // Закриваємо модальне вікно після додавання контакту
+    setIsAddingNewContact(false);
   };
 
   const handleSelectContact = (contact: ContactType) => {
     setSelectedContact(contact);
-    setIsUpdateOpen(true); // Відкриваємо модальне вікно оновлення
+    setIsUpdatingContact(true);
   };
 
   const filteredContacts = contacts.filter(contact =>
@@ -69,21 +69,21 @@ const ContactPage = () => {
     <div className="p-4 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold text-blue-600 mb-4">Contacts</h1>
       <div className="flex">
-        {/* Кнопка для відкриття/закриття фільтрів */}
-      <button
-        onClick={() => setIsFilterVisible(prev => !prev)}
-        className={buttonStyle}
-      >
-        {isFilterVisible ? 'Hide Filters' : 'Show Filters'}
-      </button>
+        <button
+          onClick={() => setIsFilterVisible(prev => !prev)}
+          className="mb-4 mx-2 p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200"
+        >
+          {isFilterVisible ? 'Hide Filters' : 'Show Filters'}
+        </button>
 
-      {/* Кнопка для відкриття модального вікна для додавання контакту */}
-      <button onClick={() => setOpen(true)} className={buttonStyle}>
-        Add New Contact
-      </button></div>
+        <button
+          onClick={() => setIsAddingNewContact(true)}
+          className="mb-4 mx-2 p-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-200"
+        >
+          Add New Contact
+        </button>
+      </div>
 
-
-      {/* Рендеринг секції фільтрів */}
       {isFilterVisible && (
         <FilterAndSort
           filterParams={filterParams}
@@ -95,30 +95,28 @@ const ContactPage = () => {
         />
       )}
 
-      {/* Модальне вікно для додавання контакту */}
       <Modal
-        open={open}
-        onClose={() => setOpen(false)}
+        open={isAddingNewContact}
+        onClose={() => setIsAddingNewContact(false)}
       >
         <Box sx={style}>
           <ContactForm onAdd={handleAddContact} contacts={contacts} />
         </Box>
       </Modal>
 
-      {/* Модальне вікно для оновлення контакту */}
       <Modal
-        open={isUpdateOpen}
-        onClose={() => setIsUpdateOpen(false)}
+        open={isUpdatingContact}
+        onClose={() => setIsUpdatingContact(false)}
       >
         <Box sx={style}>
           <h2 className="text-center mb-3">Update Contact</h2>
           {selectedContact && (
             <UpdateContactForm
               contact={selectedContact}
-              onClose={() => setIsUpdateOpen(false)}
+              onClose={() => setIsUpdatingContact(false)}
               onUpdateSuccess={() => {
                 dispatch(fetchContacts(filterParams));
-                setIsUpdateOpen(false); // Закриваємо модальне вікно після успішного оновлення
+                setIsUpdatingContact(false);
               }}
             />
           )}

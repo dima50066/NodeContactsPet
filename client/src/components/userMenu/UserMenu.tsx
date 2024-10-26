@@ -5,7 +5,7 @@ import { logOut } from '../../redux/auth/operations';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../../types';
 import { HiOutlineUser } from 'react-icons/hi';
-import { toast } from 'react-toastify'; // Імпортируем Toastify
+import { toast } from 'react-toastify';
 
 const UserMenu: React.FC = () => {
     const dispatch = useDispatch();
@@ -17,10 +17,10 @@ const UserMenu: React.FC = () => {
             await dispatch(logOut() as unknown as any);
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            toast.success('Successfully logged out!'); // Успішне повідомлення
+            toast.success('Successfully logged out!');
             navigate('/');
         } catch (error) {
-            toast.error('Failed to log out. Please try again.'); // Повідомлення про помилку
+            toast.error('Failed to log out. Please try again.');
         }
     };
 
@@ -28,7 +28,7 @@ const UserMenu: React.FC = () => {
         <div className="flex items-center space-x-4 p-2 bg-gray-100 rounded-lg shadow-md">
             {currentUser ? (
                 <>
-                    <HiOutlineUser className="text-blue-500 w-6 h-6" /> {/* Іконка користувача */}
+                    <HiOutlineUser className="text-blue-500 w-6 h-6" /> {/* Icons for user */}
                     <p className="text-lg text-blue-700">
                         Hello, <span className="font-semibold text-blue-800">{currentUser.name}</span>
                     </p>

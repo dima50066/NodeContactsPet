@@ -23,23 +23,15 @@ const FilterAndSort: React.FC<FilterAndSortProps> = ({
     setSearchTerm(e.target.value);
   };
 
-  const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterParams((prev) => ({ ...prev, sortOrder: e.target.value as 'asc' | 'desc' }));
-    toast.info(`Contacts sorted in ${e.target.value === 'asc' ? 'ascending' : 'descending'} order.`);
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterParams((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
-  const handleSortByChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterParams((prev) => ({ ...prev, sortBy: e.target.value }));
-    toast.info(`Contacts sorted by ${e.target.value}.`);
-  };
-
-  const handleContactTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterParams((prev) => ({ ...prev, contactType: e.target.value }));
-  };
-
-  const handleIsFavoriteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFavoriteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsFavoriteChecked(e.target.checked);
-    toast.info(e.target.checked ? 'Showing favorite contacts only.' : 'Showing all contacts.');
   };
 
   return (
@@ -55,8 +47,9 @@ const FilterAndSort: React.FC<FilterAndSortProps> = ({
       <div className="mb-4">
         <label className="mr-2">Sort Order:</label>
         <select
+          name="sortOrder"
           value={filterParams.sortOrder}
-          onChange={handleSortOrderChange}
+          onChange={handleSortChange}
           className="p-2 border border-gray-300 rounded"
         >
           <option value="asc">Sort Ascending</option>
@@ -67,8 +60,9 @@ const FilterAndSort: React.FC<FilterAndSortProps> = ({
       <div className="mb-4">
         <label className="mr-2">Sort By:</label>
         <select
+          name="sortBy"
           value={filterParams.sortBy}
-          onChange={handleSortByChange}
+          onChange={handleSortChange}
           className="p-2 border border-gray-300 rounded"
         >
           <option value="name">Sort by Name</option>
@@ -82,8 +76,9 @@ const FilterAndSort: React.FC<FilterAndSortProps> = ({
       <div className="mb-4">
         <label className="mr-2">Contact Type:</label>
         <select
+          name="contactType"
           value={filterParams.contactType}
-          onChange={handleContactTypeChange}
+          onChange={handleSortChange}
           className="p-2 border border-gray-300 rounded"
         >
           <option value="all">All</option>
@@ -97,7 +92,7 @@ const FilterAndSort: React.FC<FilterAndSortProps> = ({
         <input
           type="checkbox"
           checked={isFavoriteChecked}
-          onChange={handleIsFavoriteChange}
+          onChange={handleFavoriteChange}
           className="mr-2"
         />
         Show Favorites Only
