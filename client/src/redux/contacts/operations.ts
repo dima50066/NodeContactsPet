@@ -1,14 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 import { ContactType } from '../../types';
-import axiosInstance from '../../api/axiosconfig';
-import {FilterParams} from '../../types';
-
+import { FilterParams } from '../../types';
+import { RootState } from '../store'; // Імпортуємо типи для Redux store
 
 // Функції для роботи з контактами
 export const fetchContacts = createAsyncThunk<ContactType[], FilterParams>(
   'contacts/fetchContacts',
-  async ({ filter, sortOrder, contactType, isFavourite, sortBy }) => {
-    const response = await axiosInstance.get('/contacts', {
+  async ({ filter, sortOrder, contactType, isFavourite, sortBy }, { getState }) => {
+    const state = getState() as RootState; // Отримуємо стан Redux
+    const token = state.auth.token; // Отримуємо токен
+
+    const response = await axios.get('/contacts', {
+      headers: {
+        Authorization: `Bearer ${token}`, // Додаємо токен в заголовок
+      },
       params: {
         filter,
         sortOrder,
@@ -17,42 +23,84 @@ export const fetchContacts = createAsyncThunk<ContactType[], FilterParams>(
         sortBy,
       },
     });
+
     return response.data.data.data;
   }
 );
 
 export const fetchContactById = createAsyncThunk<ContactType, string>(
   'contacts/fetchContactById',
-  async (id) => {
-    const response = await axiosInstance.get(`/contacts/${id}`);
+  async (id, { getState }) => {
+    const state = getState() as RootState;
+    const token = state.auth.token;
+
+    // Налагоджувальний лог
+    console.log('Fetching contact by ID with token:', token);
+
+    const response = await axios.get(`/contacts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Додаємо токен в заголовок
+      },
+    });
+
     return response.data; // Повертаємо дані
   }
 );
 
 export const createContact = createAsyncThunk<ContactType, Omit<ContactType, '_id'>>(
   'contacts/createContact',
-  async (contact) => {
-    const response = await axiosInstance.post('/contacts', contact);
+  async (contact, { getState }) => {
+    const state = getState() as RootState;
+    const token = state.auth.token;
+
+    // Налагоджувальний лог
+    console.log('Creating contact with token:', token);
+
+    const response = await axios.post('/contacts', contact, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Додаємо токен в заголовок
+      },
+    });
+
     return response.data; // Повертаємо створений контакт
   }
 );
 
 export const updateContact = createAsyncThunk<ContactType, { id: string; updates: FormData }>(
   'contacts/updateContact',
-  async ({ id, updates }) => {
-    const response = await axiosInstance.put(`/contacts/${id}`, updates, {
+  async ({ id, updates }, { getState }) => {
+    const state = getState() as RootState;
+    const token = state.auth.token;
+
+    // Налагоджувальний лог
+    console.log('Updating contact with token:', token);
+
+    const response = await axios.put(`/contacts/${id}`, updates, {
       headers: {
+        Authorization: `Bearer ${token}`, // Додаємо токен в заголовок
         'Content-Type': 'multipart/form-data',
       },
     });
+
     return response.data; // Повертаємо оновлений контакт
   }
 );
 
 export const deleteContact = createAsyncThunk<string, string>(
   'contacts/deleteContact',
-  async (id) => {
-    await axiosInstance.delete(`/contacts/${id}`);
+  async (id, { getState }) => {
+    const state = getState() as RootState;
+    const token = state.auth.token;
+
+    // Налагоджувальний лог
+    console.log('Deleting contact with token:', token);
+
+    await axios.delete(`/contacts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Додаємо токен в заголовок
+      },
+    });
+
     return id; // Повертаємо id для видалення контакту
   }
 );

@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { loginUser, logOut, refreshUser } from './operations';
-import { set } from 'mongoose';
 
 const initialState = {
   user: null,
