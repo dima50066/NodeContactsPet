@@ -8,7 +8,6 @@ const contactsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch contacts
       .addCase(fetchContacts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -21,7 +20,6 @@ const contactsSlice = createSlice({
         state.loading = false;
         state.error = error.message || 'Failed to fetch contacts';
       })
-      // Create contact
       .addCase(createContact.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -34,7 +32,6 @@ const contactsSlice = createSlice({
         state.loading = false;
         state.error = error.message || 'Failed to create contact';
       })
-      // Update contact
       .addCase(updateContact.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -52,7 +49,6 @@ const contactsSlice = createSlice({
         state.loading = false;
         state.error = error.message || 'Failed to update contact';
       })
-      // Delete contact
       .addCase(deleteContact.pending, (state) => {
         state.loading = true;
         state.error = null;

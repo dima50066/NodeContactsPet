@@ -1,6 +1,5 @@
 import React from 'react';
 import { FilterParams } from '../../types';
-import { toast } from 'react-toastify';
 
 interface FilterAndSortProps {
   filterParams: FilterParams;

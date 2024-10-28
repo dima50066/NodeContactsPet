@@ -2,18 +2,18 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { ContactType } from '../../types';
 import { FilterParams } from '../../types';
-import { RootState } from '../store'; // Імпортуємо типи для Redux store
+import { RootState } from '../store';
 
-// Функції для роботи з контактами
+
 export const fetchContacts = createAsyncThunk<ContactType[], FilterParams>(
   'contacts/fetchContacts',
   async ({ filter, sortOrder, contactType, isFavourite, sortBy }, { getState }) => {
-    const state = getState() as RootState; // Отримуємо стан Redux
-    const token = state.auth.token; // Отримуємо токен
+    const state = getState() as RootState;
+    const token = state.auth.token;
 
     const response = await axios.get('/contacts', {
       headers: {
-        Authorization: `Bearer ${token}`, // Додаємо токен в заголовок
+        Authorization: `Bearer ${token}`,
       },
       params: {
         filter,
@@ -34,16 +34,15 @@ export const fetchContactById = createAsyncThunk<ContactType, string>(
     const state = getState() as RootState;
     const token = state.auth.token;
 
-    // Налагоджувальний лог
     console.log('Fetching contact by ID with token:', token);
 
     const response = await axios.get(`/contacts/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Додаємо токен в заголовок
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    return response.data; // Повертаємо дані
+    return response.data;
   }
 );
 
@@ -53,16 +52,16 @@ export const createContact = createAsyncThunk<ContactType, Omit<ContactType, '_i
     const state = getState() as RootState;
     const token = state.auth.token;
 
-    // Налагоджувальний лог
+
     console.log('Creating contact with token:', token);
 
     const response = await axios.post('/contacts', contact, {
       headers: {
-        Authorization: `Bearer ${token}`, // Додаємо токен в заголовок
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    return response.data; // Повертаємо створений контакт
+    return response.data;
   }
 );
 
@@ -72,17 +71,16 @@ export const updateContact = createAsyncThunk<ContactType, { id: string; updates
     const state = getState() as RootState;
     const token = state.auth.token;
 
-    // Налагоджувальний лог
     console.log('Updating contact with token:', token);
 
     const response = await axios.put(`/contacts/${id}`, updates, {
       headers: {
-        Authorization: `Bearer ${token}`, // Додаємо токен в заголовок
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
       },
     });
 
-    return response.data; // Повертаємо оновлений контакт
+    return response.data;
   }
 );
 
@@ -92,15 +90,15 @@ export const deleteContact = createAsyncThunk<string, string>(
     const state = getState() as RootState;
     const token = state.auth.token;
 
-    // Налагоджувальний лог
+
     console.log('Deleting contact with token:', token);
 
     await axios.delete(`/contacts/${id}`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Додаємо токен в заголовок
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    return id; // Повертаємо id для видалення контакту
+    return id;
   }
 );
