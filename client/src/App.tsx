@@ -14,6 +14,7 @@ import PrivateRoute from './components/routes/PrivateRoute';
 import RestrictedRoute from './components/routes/RestrictedRoute';
 import { refreshUser } from './redux/auth/operations';
 import { ToastContainer } from 'react-toastify';
+import Footer from './components/footer/Footer';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
@@ -73,6 +74,7 @@ const App: React.FC = () => {
           element={<PrivateRoute component={<ContactPage />} redirectTo="/login" />}
         />
       </Routes>
+      <Footer />
     </Router>
   );
 };
