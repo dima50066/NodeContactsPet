@@ -1,0 +1,9 @@
+[[services]]
+name = "backend"
+path = "src"
+start = "node ./src/index.js"
+
+[[services]]
+name = "frontend"
+path = "client"
+start = "npm start"
