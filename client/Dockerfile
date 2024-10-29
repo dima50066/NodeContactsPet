@@ -15,7 +15,7 @@ RUN npm run build
 RUN npm install -g serve
 
 # Використовуємо змінну PORT, яку надає Railway
-ENV PORT=${PORT}
+ENV PORT=$PORT
 
 # Запускаємо `serve` з використанням змінної PORT
 CMD ["serve", "-s", "build", "-l", "$PORT"]
