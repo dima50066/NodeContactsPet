@@ -1,4 +1,3 @@
-// authActions.ts
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance, { setAuthHeader, clearAuthHeader } from '../../hooks/axiosConfig';
 import { RootState } from '../store';

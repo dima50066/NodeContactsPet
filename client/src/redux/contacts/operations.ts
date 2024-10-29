@@ -1,4 +1,3 @@
-// contactsActions.ts
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../hooks/axiosConfig';
 import { ContactType, FilterParams } from '../../types';

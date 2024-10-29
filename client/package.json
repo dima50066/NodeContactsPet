@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3000",
+  "proxy": "https://nodecontactspet-production.up.railway.app",
   "homepage": "http://localhost:5000",
   "dependencies": {
     "@emotion/react": "^11.13.3",
