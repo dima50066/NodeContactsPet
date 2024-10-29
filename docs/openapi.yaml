@@ -13,7 +13,6 @@ tags:
     description: Auth operations.
 servers:
   - url: https://nodejs-hw-mongodb-4-1czg.onrender.com
-  - url: http://localhost:3000
 security:
   - bearerAuth: []
 components:
@@ -24,64 +23,64 @@ components:
       bearerFormat: JWT
   responses:
     NotFound:
-      $ref: './swagger/components/responses/notFound.yaml'
+      $ref: 'swagger/components/responses/notFound.yaml'
     Unauthorized:
-      $ref: './swagger/components/responses/unauthorized.yaml'
+      $ref: 'swagger/components/responses/unauthorized.yaml'
   schemas:
     Contact:
-      $ref: './swagger/components/schemas/contacts.yaml'
+      $ref: 'swagger/components/schemas/contacts.yaml'
     Auth:
-      $ref: './swagger/components/schemas/auth.yaml'
+      $ref: 'swagger/components/schemas/auth.yaml'
 paths:
   /contacts:
     get:
-      $ref: './swagger/path/contacts/get.yaml'
+      $ref: 'swagger/path/contacts/get.yaml'
       tags:
         - Contacts
     post:
-      $ref: './swagger/path/contacts/post.yaml'
+      $ref: 'swagger/path/contacts/post.yaml'
       tags:
         - Contacts
   /contacts/{contactId}:
     get:
-      $ref: './swagger/path/contacts/{id}/get.yaml'
+      $ref: 'swagger/path/contacts/{id}/get.yaml'
       tags:
         - Contacts
     patch:
-      $ref: './swagger/path/contacts/{id}/patch.yaml'
+      $ref: 'swagger/path/contacts/{id}/patch.yaml'
       tags:
         - Contacts
     delete:
-      $ref: './swagger/path/contacts/{id}/delete.yaml'
+      $ref: 'swagger/path/contacts/{id}/delete.yaml'
       tags:
         - Contacts
   /auth/register:
     post:
-      $ref: './swagger/path/auth/register.yaml'
+      $ref: 'swagger/path/auth/register.yaml'
       tags:
         - Auth
   /auth/login:
     post:
-      $ref: './swagger/path/auth/login.yaml'
+      $ref: 'swagger/path/auth/login.yaml'
       tags:
         - Auth
   /auth/logout:
     post:
-      $ref: './swagger/path/auth/logout.yaml'
+      $ref: 'swagger/path/auth/logout.yaml'
       tags:
         - Auth
   /auth/refresh:
     post:
-      $ref: './swagger/path/auth/refresh.yaml'
+      $ref: 'swagger/path/auth/refresh.yaml'
       tags:
         - Auth
   /auth/send-reset-email:
     post:
-      $ref: './swagger/path/auth/send-reset-email.yaml'
+      $ref: 'swagger/path/auth/send-reset-email.yaml'
       tags:
         - Auth
   /auth/reset-pwd:
     post:
-      $ref: './swagger/path/auth/reset-pwd.yaml'
+      $ref: 'swagger/path/auth/reset-pwd.yaml'
       tags:
         - Auth

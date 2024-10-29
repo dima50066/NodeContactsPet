@@ -12,9 +12,6 @@
   "servers": [
     {
       "url": "https://nodejs-hw-mongodb-4-1czg.onrender.com"
-    },
-    {
-      "url": "http://localhost:3000"
     }
   ],
   "security": [
