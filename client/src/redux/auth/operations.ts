@@ -10,7 +10,7 @@ export const registerUser = createAsyncThunk('auth/register', async (userData: {
 });
 
 export const loginUser = createAsyncThunk('auth/login', async (userData: { email: string; password: string; }) => {
-    const response = await axiosInstance.post('/auth/login', userData);
+    const response = await axiosInstance.post('/auth/login', userData, { withCredentials: true });
     const { token } = response.data.data;
     setAuthHeader(token);
     return response.data.data;
@@ -22,15 +22,21 @@ export const logOut = createAsyncThunk('auth/logout', async () => {
 });
 
 export const refreshUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
-    const persistedToken = (thunkAPI.getState() as RootState).auth.token;
-    if (!persistedToken) return thunkAPI.rejectWithValue('Unable to fetch user');
+  const persistedToken = (thunkAPI.getState() as RootState).auth.token;
+  if (!persistedToken) return thunkAPI.rejectWithValue('Unable to fetch user');
 
-    try {
-        setAuthHeader(persistedToken);
-        const response = await axiosInstance.post('/auth/refresh', {}, { withCredentials: true });
-        return response.data.data;
-    } catch (error: any) {
-        clearAuthHeader();
-        return thunkAPI.rejectWithValue(error.response?.data.message || error.message);
-    }
+  try {
+    setAuthHeader(persistedToken);
+    const response = await axiosInstance.post('/auth/refresh', {}, { withCredentials: true });
+    const { accessToken } = response.data.data;
+
+    // Оновлюємо токен в заголовках для наступних запитів
+    setAuthHeader(accessToken);
+
+    return response.data.data;
+  } catch (error: any) {
+    clearAuthHeader();
+    return thunkAPI.rejectWithValue(error.response?.data.message || error.message);
+  }
 });
+
