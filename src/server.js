@@ -14,11 +14,13 @@ dotenv.config();
 
 const PORT = Number(env('PORT', '3000'));
 
-// Умова для налаштування транспортування
+// Перевірка режиму роботи і конфігурація pino
+console.log(`Running in ${process.env.NODE_ENV} mode`);
+
 const pinoConfig =
   process.env.NODE_ENV !== 'production'
     ? { transport: { target: 'pino-pretty', options: { colorize: true } } }
-    : {}; // Без транспортування в продакшн
+    : {}; // Без "pino-pretty" в продакшн
 
 export const setupServer = () => {
   const app = express();
@@ -27,7 +29,8 @@ export const setupServer = () => {
   app.use(cors());
   app.use(cookieParser());
 
-  app.use(pino(pinoConfig)); // Використовуємо конфігурацію з умовою
+  // Використання конфігурації для pino з умовою
+  app.use(pino(pinoConfig));
 
   app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the Contacts API' });
