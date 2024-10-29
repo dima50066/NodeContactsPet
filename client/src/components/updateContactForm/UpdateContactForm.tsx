@@ -24,29 +24,30 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
   const [contactType, setContactType] = useState(contact.contactType);
   const [isContactFavourite, setIsContactFavourite] = useState(contact.isFavourite);
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+const handleSubmit = async (event: React.FormEvent) => {
+  event.preventDefault();
 
-    const formData = new FormData();
-    formData.append('name', contactName);
-    formData.append('email', contactEmail);
-    formData.append('phoneNumber', contactPhoneNumber);
-    formData.append('isFavourite', isContactFavourite.toString());
-    formData.append('contactType', contactType);
+  const formData = new FormData();
+  formData.append('name', contactName);
+  formData.append('email', contactEmail);
+  formData.append('phoneNumber', contactPhoneNumber);
+  formData.append('isFavourite', isContactFavourite.toString());
+  formData.append('contactType', contactType);
 
-    if (contactPhoto) {
-      formData.append('photo', contactPhoto);
-    }
+  if (contactPhoto) {
+    formData.append('photo', contactPhoto);
+  }
 
-    try {
-      await dispatch(updateContact({ id: contact._id, updates: formData }));
-      toast.success('Contact updated successfully!');
-      onUpdateSuccess();
-      onClose();
-    } catch (error) {
-      toast.error('Failed to update contact. Please try again.');
-    }
-  };
+  try {
+    await dispatch(updateContact({ id: contact._id, updates: formData }));
+    toast.success('Contact updated successfully!');
+    onUpdateSuccess();
+    onClose();
+  } catch (error) {
+    console.error('Error updating contact:', error);
+    toast.error('Failed to update contact. Please try again.');
+  }
+};
 
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data" className="p-4 bg-white rounded-lg">

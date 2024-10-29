@@ -140,9 +140,10 @@ export const patchContactController = async (req, res, next) => {
     const { contactId } = req.params;
 
     const photo = req.file;
-
     let photoUrl;
+
     if (photo) {
+      console.log('Uploading new photo...');
       if (env('ENABLE_CLOUDINARY') === 'true') {
         photoUrl = await saveFileToCloudinary(photo);
       } else {
@@ -156,11 +157,13 @@ export const patchContactController = async (req, res, next) => {
       return next(createHttpError(404, 'Contact not found'));
     }
 
-    const updatedContact = await updateContact(contactId, {
+    const updates = {
       ...req.body,
       userId: req.user._id,
-      photo: photoUrl,
-    });
+      photo: photoUrl || contact.photo,
+    };
+
+    const updatedContact = await updateContact(contactId, updates);
 
     res.json({
       status: 200,
