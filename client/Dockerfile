@@ -14,8 +14,8 @@ RUN npm run build
 # Встановлюємо `serve` для обслуговування статичних файлів
 RUN npm install -g serve
 
-# Встановлюємо PORT зі значенням за замовчуванням
-ENV PORT=${PORT:-5000}
+# Задаємо значення порту, який Railway автоматично передає через змінну PORT
+ENV PORT 5000
 
-# Запускаємо `serve` з використанням змінної PORT
-CMD ["serve", "-s", "build", "-l", "$PORT"]
+# Запускаємо `serve` з використанням змінної PORT, або 5000, якщо Railway її не надасть
+CMD ["sh", "-c", "serve -s build -l ${PORT:-5000}"]
