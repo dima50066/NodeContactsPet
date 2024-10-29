@@ -11,7 +11,11 @@ RUN npm install --omit=dev
 COPY . .
 RUN npm run build
 
-# Використовуємо сервер для обслуговування статичних файлів
+# Встановлюємо `serve` для обслуговування статичних файлів
 RUN npm install -g serve
-EXPOSE 5000
-CMD ["serve", "-s", "build", "-l", "5000"]
+
+# Використовуємо змінну PORT, яку надає Railway
+ENV PORT=${PORT}
+
+# Запускаємо `serve` з використанням змінної PORT
+CMD ["serve", "-s", "build", "-l", "$PORT"]
