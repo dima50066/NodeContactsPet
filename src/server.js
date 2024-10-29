@@ -9,29 +9,25 @@ import router from './routers/index.js';
 import cookieParser from 'cookie-parser';
 import { swaggerDocs } from './middlewares/swaggerDocs.js';
 import { UPLOAD_DIR } from './constants/index.js';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 dotenv.config();
 
 const PORT = Number(env('PORT', '3000'));
 
+// Умова для налаштування транспортування
+const pinoConfig =
+  process.env.NODE_ENV !== 'production'
+    ? { transport: { target: 'pino-pretty', options: { colorize: true } } }
+    : {}; // Без транспортування в продакшн
+
 export const setupServer = () => {
   const app = express();
 
   app.use(express.json());
-
   app.use(cors());
-
   app.use(cookieParser());
 
-  app.use(
-    pino({
-      transport: {
-        target: 'pino-pretty',
-      },
-    }),
-  );
+  app.use(pino(pinoConfig)); // Використовуємо конфігурацію з умовою
 
   app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the Contacts API' });
@@ -46,13 +42,12 @@ export const setupServer = () => {
     res.set('Cache-Control', 'no-store');
     next();
   });
-  app.use(notFoundHandler);
 
+  app.use(notFoundHandler);
   app.use(errorHandler);
+
   app.use('*', (req, res, next) => {
-    res.status(404).json({
-      message: 'Not found',
-    });
+    res.status(404).json({ message: 'Not found' });
   });
 
   app.listen(PORT, () => {
