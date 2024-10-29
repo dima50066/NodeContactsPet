@@ -138,17 +138,19 @@ export const upsertContactController = async (req, res, next) => {
 export const patchContactController = async (req, res, next) => {
   try {
     const { contactId } = req.params;
-
     const photo = req.file;
-    let photoUrl;
 
+    let photoUrl;
     if (photo) {
-      console.log('Uploading new photo...');
+      console.log('Uploading new photo:', photo.originalname); // Логування для підтвердження отримання файлу
+
       if (env('ENABLE_CLOUDINARY') === 'true') {
         photoUrl = await saveFileToCloudinary(photo);
       } else {
         photoUrl = await saveFileToUploadDir(photo);
       }
+
+      console.log('Photo URL after upload:', photoUrl); // Логування URL після завантаження
     }
 
     const contact = await getContactsById(contactId, req.user._id);
@@ -160,7 +162,7 @@ export const patchContactController = async (req, res, next) => {
     const updates = {
       ...req.body,
       userId: req.user._id,
-      photo: photoUrl || contact.photo,
+      photo: photoUrl || contact.photo, // Використовуємо новий URL, якщо він доступний
     };
 
     const updatedContact = await updateContact(contactId, updates);
