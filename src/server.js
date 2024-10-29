@@ -2,7 +2,6 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { env } from './utils/env.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import router from './routers/index.js';
@@ -12,15 +11,14 @@ import { UPLOAD_DIR } from './constants/index.js';
 
 dotenv.config();
 
-const PORT = Number(env('PORT', '3000'));
+const PORT = process.env.PORT || 3000;
 
-// Перевірка режиму роботи і конфігурація pino
 console.log(`Running in ${process.env.NODE_ENV} mode`);
 
 const pinoConfig =
   process.env.NODE_ENV !== 'production'
     ? { transport: { target: 'pino-pretty', options: { colorize: true } } }
-    : {}; // Без "pino-pretty" в продакшн
+    : {};
 
 export const setupServer = () => {
   const app = express();
@@ -29,7 +27,6 @@ export const setupServer = () => {
   app.use(cors());
   app.use(cookieParser());
 
-  // Використання конфігурації для pino з умовою
   app.use(pino(pinoConfig));
 
   app.get('/', (req, res) => {
@@ -49,7 +46,7 @@ export const setupServer = () => {
   app.use(notFoundHandler);
   app.use(errorHandler);
 
-  app.use('*', (req, res, next) => {
+  app.use('*', (req, res) => {
     res.status(404).json({ message: 'Not found' });
   });
 

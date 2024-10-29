@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "https://nodecontactspet-production.up.railway.app",
-  "homepage": "http://localhost:5000",
+  "homepage": "https://extraordinary-stillness-production.up.railway.app",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.20.1",
     "@emotion/react": "^11.13.3",
