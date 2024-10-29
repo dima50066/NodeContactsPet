@@ -11,7 +11,7 @@
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run start\" \"npm run client\"",
     "build": "npm run build-docs",
-    "build-docs": "npm install --omit=dev && redocly bundle --ext json -o docs/swagger.json",
+    "build-docs": "redocly bundle --ext json -o docs/swagger.json",
     "preview-docs": "redocly preview-docs"
   },
   "keywords": [],
