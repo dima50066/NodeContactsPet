@@ -26,7 +26,6 @@ const UpdateContactForm: React.FC<UpdateContactFormProps> = ({
 
 const handleSubmit = async (event: React.FormEvent) => {
   event.preventDefault();
-
   const formData = new FormData();
   formData.append('name', contactName);
   formData.append('email', contactEmail);
@@ -36,6 +35,11 @@ const handleSubmit = async (event: React.FormEvent) => {
 
   if (contactPhoto) {
     formData.append('photo', contactPhoto);
+  }
+
+  // Логування вмісту formData
+  for (let [key, value] of Array.from(formData.entries())) {
+    console.log(`${key}:`, value);
   }
 
   try {

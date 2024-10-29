@@ -15,11 +15,11 @@ export const useContacts = () => {
   const modifyContact = (id: string, updates: Partial<ContactType>) => {
     const formData = new FormData();
     Object.entries(updates).forEach(([key, value]) => {
-      if ( typeof value === 'object' && value as any instanceof Blob) {
-        formData.append(key, value);
-      } else {
-        formData.append(key, String(value));
-      }
+  if (typeof value === 'object' && (value as any) instanceof Blob) {
+    formData.append(key, value);
+  } else {
+    formData.append(key, String(value));
+  }
     });
     dispatch(updateContact({ id, updates: formData }));
   };

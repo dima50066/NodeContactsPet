@@ -24,9 +24,18 @@ export const setupServer = () => {
   const app = express();
 
   app.use(express.json());
-  app.use(cors());
-  app.use(cookieParser());
 
+  const corsOptions = {
+    origin: 'https://extraordinary-stillness-production.up.railway.app',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Authorization', 'Content-Type'],
+    credentials: true,
+  };
+
+  app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
+
+  app.use(cookieParser());
   app.use(pino(pinoConfig));
 
   app.get('/', (req, res) => {

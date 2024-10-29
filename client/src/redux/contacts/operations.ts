@@ -29,7 +29,7 @@ export const createContact = createAsyncThunk<ContactType, Omit<ContactType, '_i
 export const updateContact = createAsyncThunk<ContactType, { id: string; updates: FormData }>(
   'contacts/updateContact',
   async ({ id, updates }) => {
-      const response = await axiosInstance.put(`/contacts/${id}`, updates, {
+      const response = await axiosInstance.patch(`/contacts/${id}`, updates, {
           headers: {
               'Content-Type': 'multipart/form-data',
           },
