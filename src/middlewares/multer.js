@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();
-    console.log('file.originalname', file.originalname);
+    console.log('Uploading file:', file.originalname); // Логування для підтвердження
     cb(null, `${uniqueSuffix}_${file.originalname}`);
   },
 });

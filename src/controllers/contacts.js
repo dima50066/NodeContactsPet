@@ -142,19 +142,22 @@ export const patchContactController = async (req, res, next) => {
 
     let photoUrl;
     if (photo) {
-      console.log('Uploading new photo:', photo.originalname); // Логування для підтвердження отримання файлу
+      console.log('Attempting to upload new photo:', photo.originalname);
 
-      if (env('ENABLE_CLOUDINARY') === 'true') {
-        photoUrl = await saveFileToCloudinary(photo);
-      } else {
-        photoUrl = await saveFileToUploadDir(photo);
+      try {
+        if (env('ENABLE_CLOUDINARY') === 'true') {
+          photoUrl = await saveFileToCloudinary(photo);
+        } else {
+          photoUrl = await saveFileToUploadDir(photo);
+        }
+        console.log('Photo uploaded successfully. URL:', photoUrl);
+      } catch (uploadError) {
+        console.error('Error uploading photo:', uploadError);
+        return next(createHttpError(500, 'Photo upload failed'));
       }
-
-      console.log('Photo URL after upload:', photoUrl); // Логування URL після завантаження
     }
 
     const contact = await getContactsById(contactId, req.user._id);
-
     if (!contact) {
       return next(createHttpError(404, 'Contact not found'));
     }
@@ -162,18 +165,17 @@ export const patchContactController = async (req, res, next) => {
     const updates = {
       ...req.body,
       userId: req.user._id,
-      photo: photoUrl || contact.photo, // Використовуємо новий URL, якщо він доступний
+      photo: photoUrl || contact.photo,
     };
 
     const updatedContact = await updateContact(contactId, updates);
-
     res.json({
       status: 200,
       message: 'Contact patched successfully',
       data: updatedContact.contact,
     });
   } catch (error) {
-    console.error('Error patching contact:', error);
+    console.error('Error in patchContactController:', error);
     next(error);
   }
 };
