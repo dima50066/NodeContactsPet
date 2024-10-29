@@ -50,4 +50,4 @@ responses:
   '200':
     description: Contact updated successfully.
   '404':
-    $ref: ..\..\..\components\responses\notFound.yaml
+    $ref: ../../../components/responses/notFound.yaml

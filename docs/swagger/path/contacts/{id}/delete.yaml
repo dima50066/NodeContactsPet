@@ -14,4 +14,4 @@ responses:
   '204':
     description: Contact deleted successfully.
   '404':
-    $ref: ..\..\..\components\responses\notFound.yaml
+    $ref: ../../../components/responses/notFound.yaml

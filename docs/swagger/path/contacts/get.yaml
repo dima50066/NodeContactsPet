@@ -63,6 +63,6 @@ responses:
         schema:
           type: array
           items:
-            $ref: ..\..\components\schemas\contacts.yaml
+            $ref: ../../components/schemas/contacts.yaml
   '404':
-    $ref: ..\..\components\responses\notFound.yaml
+    $ref: ../../components/responses/notFound.yaml
