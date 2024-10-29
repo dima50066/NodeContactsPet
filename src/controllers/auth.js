@@ -25,6 +25,8 @@ const setupSession = (res, session) => {
 
 export const registerUserController = async (req, res, next) => {
   try {
+    console.log('Received registration data:', req.body); // Додано логування
+
     const user = await registerUser(req.body);
     res.status(201).json({
       status: 201,
@@ -33,7 +35,7 @@ export const registerUserController = async (req, res, next) => {
     });
   } catch (error) {
     console.error('Registration error:', error); // Логування помилки
-    next(createHttpError(409, error.message)); // Якщо користувач вже існує
+    next(createHttpError(409, error.message));
   }
 };
 
