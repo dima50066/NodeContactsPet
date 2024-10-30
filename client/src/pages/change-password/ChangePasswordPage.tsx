@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import axiosInstance from '../../hooks/axiosConfig';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { logOut } from '../../redux/auth/operations';
+import { AppDispatch } from '../../redux/store';
 
 const ChangePasswordPage: React.FC = () => {
   const params = new URLSearchParams(window.location.search);
   const resetToken = params.get('token');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,7 +28,9 @@ const ChangePasswordPage: React.FC = () => {
         newPassword,
       });
       toast.success('Password changed successfully.');
-      localStorage.removeItem('token');
+
+      await dispatch(logOut());
+      navigate('/login');
     } catch (error) {
       console.error('Error changing password:', error);
       toast.error('Failed to change password. Please try again.');
