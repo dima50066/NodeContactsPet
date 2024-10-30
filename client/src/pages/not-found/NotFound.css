@@ -36,12 +36,12 @@
   font-size: 1.5rem;
   text-decoration: none;
   padding: 15px;
-  background: #6200ee;
+  background: #1e3a8a;
   color: #fff;
   border-radius: 10px;
   transition: background 0.3s;
 }
 
 .notfound-container .error:hover {
-  background: #4500a5;
+  background: #162c66;
 }
