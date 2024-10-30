@@ -9,7 +9,7 @@ import AppBar from './components/appBar/AppBar';
 import HomePage from './pages/home/Home';
 import ChangePasswordPage from './pages/change-password/ChangePasswordPage';
 import ContactPage from './pages/contact/ContactPage';
-import NotFound from './pages/not-found/NotFound'; // Import NotFound component
+import NotFound from './pages/not-found/NotFound';
 import { AppDispatch } from './redux/store';
 import PrivateRoute from './components/routes/PrivateRoute';
 import RestrictedRoute from './components/routes/RestrictedRoute';
