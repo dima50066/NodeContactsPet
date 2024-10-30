@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCredentials } from './redux/auth/slice';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/login/Login';
@@ -9,12 +9,14 @@ import AppBar from './components/appBar/AppBar';
 import HomePage from './pages/home/Home';
 import ChangePasswordPage from './pages/change-password/ChangePasswordPage';
 import ContactPage from './pages/contact/ContactPage';
+import NotFound from './pages/not-found/NotFound'; // Import NotFound component
 import { AppDispatch } from './redux/store';
 import PrivateRoute from './components/routes/PrivateRoute';
 import RestrictedRoute from './components/routes/RestrictedRoute';
 import { refreshUser } from './redux/auth/operations';
 import { ToastContainer } from 'react-toastify';
 import Footer from './components/footer/Footer';
+import LoadingSpinner from './components/loader/LoadingSpinner';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {
@@ -50,7 +52,7 @@ const App: React.FC = () => {
   };
 
   if (isRefreshingUser) {
-    return <b>Refreshing user data...</b>;
+    return <LoadingSpinner loading={true} size={60} color="#3498db" />;
   }
 
   return (
@@ -73,6 +75,7 @@ const App: React.FC = () => {
           path="/contacts"
           element={<PrivateRoute component={<ContactPage />} redirectTo="/login" />}
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </Router>

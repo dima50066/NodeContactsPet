@@ -18,7 +18,7 @@ const RegisterForm: React.FC = () => {
       toast.success('Registration successful!');
       navigate('/login');
     } catch (error) {
-      console.error('Registration error:', error); // Додано логування помилки
+      console.error('Registration error:', error);
       toast.error('Registration failed');
     }
   };

@@ -1,0 +1,56 @@
+/* client/src/pages/not-found/NotFound.css */
+
+/* Застосовується для центрального вирівнювання */
+body,
+.notfound-container {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: #f0f0f0;
+}
+
+/* Скидає відступи та фоновий колір */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+}
+
+.btn1 {
+  text-align: center;
+}
+
+.text {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+.error-text {
+  text-align: center;
+  padding: 20px;
+  font-family: Cursive;
+}
+
+.error {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  text-decoration: none;
+  padding: 15px;
+  background: #6200ee;
+  color: #fff;
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+.error:hover {
+  background: #4500a5;
+}
