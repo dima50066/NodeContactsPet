@@ -40,3 +40,16 @@ export const refreshUser = createAsyncThunk('auth/refresh', async (_, thunkAPI) 
   }
 });
 
+export const requestResetToken = createAsyncThunk(
+  'auth/requestResetToken',
+  async (email: string, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post('/auth/send-reset-email', { email });
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response?.data.message || 'Failed to send reset email');
+    }
+  }
+);
+
+

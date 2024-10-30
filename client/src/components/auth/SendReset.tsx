@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { requestResetToken } from '../../redux/auth/operations';
+import { RootState } from '../../redux/store';
 import { toast } from 'react-toastify';
+import { AppDispatch } from '../../redux/store';
 
 const ResetPassword: React.FC = () => {
   const [email, setEmail] = useState<string>('');
+  const dispatch = useDispatch<AppDispatch>();
+  const loading = useSelector((state: RootState) => state.auth.loading);
 
   const handleResetPasswordSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      await axios.post('/auth/send-reset-email', { email: email.trim() });
+    const resultAction = await dispatch(requestResetToken(email.trim()));
+    if (requestResetToken.fulfilled.match(resultAction)) {
       toast.success('A reset password email has been sent.');
-    } catch (error) {
-      toast.error('An error occurred. Please try again.');
+    } else {
+      toast.error(resultAction.payload as string);
     }
   };
 
@@ -29,8 +34,12 @@ const ResetPassword: React.FC = () => {
             required
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-500"
           />
-          <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-500">
-            Send Reset Email
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full p-2 rounded ${loading ? 'bg-gray-400' : 'bg-blue-600 text-white hover:bg-blue-500'}`}
+          >
+            {loading ? 'Sending...' : 'Send Reset Email'}
           </button>
         </form>
       </div>
