@@ -174,7 +174,7 @@ export const resetPassword = async (payload) => {
   const encryptedPassword = await bcrypt.hash(
     payload.newPassword || payload.password,
     10,
-  ); // адаптація
+  );
 
   await UsersCollection.updateOne(
     { _id: user._id },

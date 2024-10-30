@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../hooks/axiosConfig';
 import { toast } from 'react-toastify';
 
 const ChangePasswordPage: React.FC = () => {
@@ -17,10 +17,14 @@ const ChangePasswordPage: React.FC = () => {
     }
 
     try {
-      await axios.post('/auth/reset-pwd', { resetToken, newPassword });
+      await axiosInstance.post('/auth/reset-pwd', {
+        token: resetToken,
+        newPassword,
+      });
       toast.success('Password changed successfully.');
       localStorage.removeItem('token');
     } catch (error) {
+      console.error('Error changing password:', error);
       toast.error('Failed to change password. Please try again.');
     }
   };

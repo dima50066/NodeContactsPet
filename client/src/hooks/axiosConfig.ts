@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { store } from '../redux/store';
 
-// Встановлюємо базовий URL в залежності від середовища
 const API_URL = process.env.NODE_ENV === 'production'
   ? 'https://nodecontactspet-production.up.railway.app'
   : 'http://localhost:3001';
