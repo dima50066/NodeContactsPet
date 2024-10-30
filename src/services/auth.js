@@ -155,7 +155,6 @@ export const requestResetToken = async (email) => {
 };
 
 export const resetPassword = async (payload) => {
-  // перевірка токена
   let entries;
   try {
     entries = jwt.verify(payload.token, env('JWT_SECRET'));
@@ -172,7 +171,10 @@ export const resetPassword = async (payload) => {
     throw createHttpError(404, 'User not found');
   }
 
-  const encryptedPassword = await bcrypt.hash(payload.password, 10);
+  const encryptedPassword = await bcrypt.hash(
+    payload.newPassword || payload.password,
+    10,
+  ); // адаптація
 
   await UsersCollection.updateOne(
     { _id: user._id },
