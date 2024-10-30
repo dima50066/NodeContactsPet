@@ -25,16 +25,16 @@ const UserMenu: React.FC = () => {
     };
 
     return (
-        <div className="flex items-center space-x-4 p-2 bg-gray-100 rounded-lg shadow-md">
+        <div className="flex items-center space-x-2 sm:space-x-4 p-2 bg-gray-100 rounded-lg shadow-md">
             {currentUser ? (
                 <>
-                    <HiOutlineUser className="text-blue-500 w-6 h-6" /> {/* Icons for user */}
-                    <p className="text-lg text-blue-700">
+                    <HiOutlineUser className="text-blue-500 w-5 h-5 sm:w-6 sm:h-6" /> {/* Adjust icon size */}
+                    <p className="hidden sm:block text-lg text-blue-700">
                         Hello, <span className="font-semibold text-blue-800">{currentUser.name}</span>
                     </p>
                     <button
                         onClick={handleLogout}
-                        className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500 transition duration-200"
+                        className="text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2 bg-red-600 text-white rounded hover:bg-red-500 transition duration-200"
                     >
                         Log out
                     </button>
