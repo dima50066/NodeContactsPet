@@ -136,7 +136,7 @@ export const requestResetToken = async (email) => {
 
   const html = template({
     name: user.name,
-    link: `${env('APP_DOMAIN')}/reset-password?token=${resetToken}`,
+    link: `${env('FRONTEND_URL')}/reset-password?token=${resetToken}`,
   });
 
   try {
