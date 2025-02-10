@@ -16,9 +16,9 @@ const PORT = process.env.PORT || 3000;
 console.log(`Running in ${process.env.NODE_ENV} mode`);
 
 const pinoConfig =
-  process.env.NODE_ENV !== 'production'
+  process.env.NODE_ENV === 'development'
     ? { transport: { target: 'pino-pretty', options: { colorize: true } } }
-    : {};
+    : undefined;
 
 export const setupServer = () => {
   const app = express();
