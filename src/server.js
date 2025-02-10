@@ -26,7 +26,7 @@ export const setupServer = () => {
   app.use(express.json());
 
   const corsOptions = {
-    origin: 'https://extraordinary-stillness-production.up.railway.app',
+    origin: 'https://node-contacts-pet.vercel.app/',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Authorization', 'Content-Type'],
     credentials: true,
