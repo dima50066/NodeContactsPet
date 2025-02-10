@@ -13,6 +13,8 @@ dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
+const FRONTEND_URL = process.env.FRONTEND_URL;
+
 console.log(`Running in ${process.env.NODE_ENV} mode`);
 
 const pinoConfig =
@@ -26,7 +28,7 @@ export const setupServer = () => {
   app.use(express.json());
 
   const corsOptions = {
-    origin: 'https://node-contacts-pet.vercel.app/',
+    origin: FRONTEND_URL,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Authorization', 'Content-Type'],
     credentials: true,
